@@ -1,0 +1,14 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/index/search",
+    "pages/index/item"
+  ],
+  "window":{
+  "backgroundColor": "#EEE",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#FFFF00",
+  "navigationBarTitleText": "图片搜索",
+  "navigationBarTextStyle": "black"
+  }
+}

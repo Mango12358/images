@@ -1,0 +1,28 @@
+<!--index.wxml-->
+<view class="container">
+  <swiper indicator-dots="true" duration='300' class='swiper-container'>
+    <block wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src="{{item}}" class='image-swiper-item' />
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='search-view'>
+    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place'></input>
+    <button class='search-button'>分享</button>
+  </view>
+  <view class="tab-view">
+    <zan-tab scroll="true" list="{{ list }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
+  </view>
+
+  <block wx:for="{{imgUrls}}">
+    <view class='image-list-view'>
+      <image src="{{item}}" class='image-item' />
+    </view>
+  </block>
+  <view class='load-button-view'>
+    <button class='load-button'>加载更多...</button>
+  </view>
+
+
+</view>

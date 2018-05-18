@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "首页",
+  "backgroundColor": "#EEE",
+  "usingComponents": {
+    "zan-tab": "../../zanui/dist/tab/index"
+  }
+}
