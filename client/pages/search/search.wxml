@@ -1,2 +1,39 @@
-<!--pages/index/search.wxml-->
-<text>pages/index/search.wxml</text>
+<view class="container">
+  <view class='search-flex-view'>
+    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place'></input>
+    <icon type="search" size="18" class='search-icon' />
+    <button class='search-button'>搜索</button>
+  </view>
+
+  <view style='height:80rpx'></view>
+
+
+  <view class='history-tab-view' wx:if="{{history.length > 0}}">
+    <label class='history-label'>历史</label>
+    <zan-button-group style="width:100%">
+      <block wx:for="{{history}}">
+        <zan-button type='primary' size="small" plain>{{item}}</zan-button>
+      </block>
+    </zan-button-group>
+  </view>
+
+  <view class='history-tab-view' wx:if="{{hot.length > 0}}">
+    <label class='history-label'>热门搜索</label>
+    <zan-button-group style="width:100%">
+      <block wx:for="{{hot}}">
+        <zan-button type='danger' size="small" plain>{{item}}</zan-button>
+      </block>
+    </zan-button-group>
+  </view>
+
+   <block wx:for="{{imgUrls}}">
+    <view class='image-list-view'>
+      <image src="{{item}}" class='image-item' />
+    </view>
+  </block>
+  <view class='load-button-view'>
+    <button class='load-button'>加载更多...</button>
+  </view>
+
+
+</view>

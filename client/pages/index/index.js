@@ -10,10 +10,12 @@ Page({
         takeSession: false,
         requestResult: '',
         imgUrls: ["./1.jpg", "./2.jpg", "./1.jpg"],
-        list: [{ id: '1', title: "test1" }, { id: '2', title: "test2" }, { id: '3', title: "test3" }, { id: '4', title: "test4" }, { id: '5', title: "test5" }]
+        list: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "人物" }, { id: '5', title: "科技" }]
     },
   
-
+    tapSearch: function () {
+      wx.navigateTo({ url: '/pages/search/search' });
+    },
     // 用户登录示例
     login: function() {
         if (this.data.logged) return
@@ -90,47 +92,7 @@ Page({
             wx.request(options)
         }
     },
-
-    // 上传图片接口
-    doUpload: function () {
-        var that = this
-
-        // 选择图片
-        wx.chooseImage({
-            count: 1,
-            sizeType: ['compressed'],
-            sourceType: ['album', 'camera'],
-            success: function(res){
-                util.showBusy('正在上传')
-                var filePath = res.tempFilePaths[0]
-
-                // 上传图片
-                wx.uploadFile({
-                    url: config.service.uploadUrl,
-                    filePath: filePath,
-                    name: 'file',
-
-                    success: function(res){
-                        util.showSuccess('上传图片成功')
-                        console.log(res)
-                        res = JSON.parse(res.data)
-                        console.log(res)
-                        that.setData({
-                            imgUrl: res.data.imgUrl
-                        })
-                    },
-
-                    fail: function(e) {
-                        util.showModel('上传图片失败')
-                    }
-                })
-
-            },
-            fail: function(e) {
-                console.error(e)
-            }
-        })
-    },
+    
 
     // 预览图片
     previewImg: function () {

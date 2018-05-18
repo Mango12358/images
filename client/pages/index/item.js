@@ -1,13 +1,11 @@
-// pages/index/search.js
+// pages/index/item.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    history: ['测试', '测试', '测试'],
-    hot: ['云彩', '天空', '海边', '旅游', '度假'],
-    imgUrls: ["../index/1.jpg", "../index/2.jpg", "../index/1.jpg"],
+  
   },
 
   /**
