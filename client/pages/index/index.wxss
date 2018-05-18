@@ -5,18 +5,7 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  scrollbar-highlight-color: #fff;
-  scrollbar-arrow-color: #fff;
-  scrollbar-shadow-color: #fff;
-  scrollbar-darkshadow-color: #fff;
-  scrollbar-base-color: #fff;
-  scrollbar-track-color: #fff;
-}
-
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  color: transparent;
+  overflow: hidden;
 }
 
 .swiper-container {
