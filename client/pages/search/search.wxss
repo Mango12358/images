@@ -5,6 +5,18 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  scrollbar-highlight-color: #fff;
+  scrollbar-arrow-color: #fff;
+  scrollbar-shadow-color: #fff;
+  scrollbar-darkshadow-color: #fff;
+  scrollbar-base-color: #fff;
+  scrollbar-track-color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 
 .search-flex-view {
@@ -68,12 +80,12 @@ page {
 
 .image-list-view {
   margin-top: 10rpx;
-  background: white;
+  background: #f6f6f6;
   width: 100%;
 }
 
 .image-item {
-  width: 100%;
+  width: 750rpx;
 }
 
 .load-button-view {
@@ -82,16 +94,15 @@ page {
   height: 100rpx;
   margin-top: 10rpx;
   margin-bottom: 100rpx;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
 }
 
 .load-button {
   width: 100%;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
   height: 60rpx;
   font-size: 24rpx;
   border-radius: 5rpx;
   line-height: 60rpx;
   color: lightseagreen;
 }
-

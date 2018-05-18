@@ -5,6 +5,18 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  scrollbar-highlight-color: #fff;
+  scrollbar-arrow-color: #fff;
+  scrollbar-shadow-color: #fff;
+  scrollbar-darkshadow-color: #fff;
+  scrollbar-base-color: #fff;
+  scrollbar-track-color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 
 .swiper-container {
@@ -50,10 +62,11 @@ page {
   line-height: 50rpx;
   color: lightseagreen;
 }
+
 .search-icon {
- position: absolute;
- margin: 10rpx;
- margin-left: 15rpx;
+  position: absolute;
+  margin: 10rpx;
+  margin-left: 15rpx;
 }
 
 .tab-view {
@@ -63,12 +76,14 @@ page {
 
 .image-list-view {
   margin-top: 10rpx;
-  background: white;
+  background: #f6f6f6;
   width: 100%;
+  padding: 0rpx;
+  padding-bottom: 0rpx;
 }
 
 .image-item {
-  width: 100%;
+  width: 750rpx;
 }
 
 .load-button-view {
@@ -76,13 +91,13 @@ page {
   opacity: 0.8;
   height: 100rpx;
   margin-top: 10rpx;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
   margin-bottom: 100rpx;
 }
 
 .load-button {
   width: 100%;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
   height: 60rpx;
   font-size: 24rpx;
   border-radius: 5rpx;
