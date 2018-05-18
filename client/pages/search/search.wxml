@@ -28,7 +28,7 @@
 
    <block wx:for="{{imgUrls}}">
     <view class='image-list-view'>
-      <image src="{{item}}" class='image-item' />
+      <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
     </view>
   </block>
   <view class='load-button-view'>
