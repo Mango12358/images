@@ -9,6 +9,7 @@ Page({
         logged: false,
         takeSession: false,
         requestResult: '',
+        menuList: [{ image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }],
         imgUrls: ["./1.jpg", "./2.jpg", "./1.jpg"],
         list: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "人物" }, { id: '5', title: "科技" }]
     },

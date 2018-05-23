@@ -8,12 +8,18 @@ async function queryType(ctx, next) {
   // const { signature, timestamp, nonce, echostr } = ctx.query
   // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
   // else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
-  const { query } = ctx.query
-  console.log(query)
-  sql = db.select().from('images').where('type',query).limit(10).toString()
+
+  const { query,page } = ctx.query
+
+  var p = page;
+  if (p == undefined ){
+    p = 0;
+    console.log(p)
+  }
+  sql = db.select().from('images').where('type', query).offset(20 * p).limit(20).orderBy("random_index","asc").toString()
   console.log(sql)
   await db.raw(sql).then(res => {
-    console.log(res[0])
+    // console.log(res[0])
     ctx.body = res[0]
   }, err => {
     throw new Error(err)

@@ -10,22 +10,33 @@
   <view class='search-view'>
     <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' bindtap='tapSearch'>
     </input>
-    <icon type="search" size="18" class='search-icon'/>
+    <icon type="search" size="18" class='search-icon' />
     <button class='search-button'>分享</button>
   </view>
-  
-  <view class="tab-view">
-    <zan-tab scroll="true" list="{{ list }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
+
+  <view class='menu-container'>
+    <block wx:for="{{menuList}}">
+      <view class='menu-view'>
+        <image src='{{item.image}}' class='menu-image'></image>
+        <label class='menu-label'>{{item.label}}</label>
+      </view>
+    </block>
   </view>
 
-  <block wx:for="{{imgUrls}}">
-    <view class='image-list-view'>
-      <image src="{{item}}" class='image-item' mode='widthFix' lazy-load />
+
+  <view class='tab-container'>
+    <view class="tab-view">
+      <zan-tab scroll="true" list="{{ list }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
     </view>
-  </block>
-  <view class='load-button-view'>
-    <button class='load-button'>加载更多...</button>
-  </view>
 
+    <block wx:for="{{imgUrls}}">
+      <view class='image-list-view'>
+        <image src="{{item}}" class='image-item' mode='widthFix' lazy-load />
+      </view>
+    </block>
+    <view class='load-button-view'>
+      <button class='load-button'>加载更多...</button>
+    </view>
+  </view>
 
 </view>

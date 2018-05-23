@@ -21,14 +21,14 @@ page {
   padding-left: 50rpx;
   opacity: 0.6;
   width: 550rpx;
-  height: 50rpx;
-  border-radius: 25rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
 }
 
 .input-place {
-  margin-left: 15rpx;
-  font-size: 25rpx;
-  line-height: 50rpx;
+  margin-left: 20rpx;
+  font-size: 26rpx;
+  line-height: 60rpx;
 }
 
 .search-icon {
@@ -40,12 +40,12 @@ page {
 .search-button {
   background: lightblue;
   opacity: 0.8;
-  width: 100rpx;
-  height: 50rpx;
+  width: 120rpx;
+  height: 60rpx;
   margin-left: 10rpx;
-  border-radius: 25rpx;
-  font-size: 23rpx;
-  line-height: 50rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  line-height: 60rpx;
   color: lightseagreen;
 }
 
