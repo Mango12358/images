@@ -1,2 +1,6 @@
-<!--pages/index/item.wxml-->
-<text>pages/index/item.wxml</text>
+<view class="container">
+  <view>
+  
+  </view>
+
+</view>

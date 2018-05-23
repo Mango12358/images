@@ -8,7 +8,7 @@
     </block>
   </swiper>
   <view class='search-view'>
-    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' bindtap='tapSearch'>
+    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' bindtap='tapSearch' disabled='true'>
     </input>
     <icon type="search" size="18" class='search-icon' />
     <button class='search-button'>分享</button>
