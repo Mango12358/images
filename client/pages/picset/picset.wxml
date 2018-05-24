@@ -1,2 +1,7 @@
-<!--pages/picset/picset.wxml-->
-<text>pages/picset/picset.wxml</text>
+<view class="container">
+  <block wx:for="{{imgUrls}}">
+      <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
+      <label class='image-text'>非常好</label>
+  </block>
+  <zan-button type="primary" size='small' plain='true'>加载更多.</zan-button>
+</view>

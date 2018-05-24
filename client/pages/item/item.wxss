@@ -10,3 +10,54 @@ page {
 
 /*import font icon*/
 @import "/utils/font-icon.wxss";
+
+.similar-view {
+  display: block;
+  width: 100%;
+  background-color: white;
+  margin-top: 10rpx;
+  padding-top: 20rpx;
+}
+
+.similar-view-label {
+  width: 100%;
+  margin-left: 30rpx;
+  margin-top: 30rpx;
+  margin-bottom: 10rpx;
+  padding-left: 10rpx;
+  font-size: 28rpx;
+  line-height: 50rpx;
+  border-left: 5rpx solid gray;
+}
+
+.similar-image{
+  width: 355rpx;
+  display: inline-block;
+  padding: 10rpx;
+}
+
+.main-container {
+  width: 100%;
+}
+
+.main-image {
+  width: 100%;
+}
+
+.main-icon-view {
+  background-color: white;
+  width: 750rpx;
+  padding-top: 10rpx;
+  margin-bottom: 10rpx;
+  text-align: center;
+  height: 65rpx;
+}
+
+.icon-item {
+  width: 24%;
+  display: inline-block;
+  color: lightslategray;
+  font-size: 45rpx;
+  align-content: center;
+  /* border-left: 1rpx solid gray; */
+}

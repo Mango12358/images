@@ -26,7 +26,7 @@
     </zan-button-group>
   </view>
 
-   <block wx:for="{{imgUrls}}">
+  <block wx:for="{{imgUrls}}">
     <view class='image-list-view'>
       <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
     </view>
@@ -34,6 +34,4 @@
   <view class='load-button-view'>
     <button class='load-button'>加载更多...</button>
   </view>
-
-
 </view>

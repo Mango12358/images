@@ -1,2 +1,6 @@
-<!--pages/list/list.wxml-->
-<text>pages/list/list.wxml</text>
+<view class="container">
+  <block wx:for="{{imgUrls}}">
+    <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
+  </block>
+  <zan-button type="primary" size='small' plain='true'>加载更多.</zan-button>
+</view>

@@ -15,7 +15,8 @@ Page({
     },
   
     tapSearch: function () {
-      wx.navigateTo({ url: '/pages/search/search' });
+      // wx.navigateTo({ url: '/pages/search/search' });
+      wx.navigateTo({ url: '/pages/item/item' });
     },
     // 用户登录示例
     login: function() {

@@ -1,1 +1,13 @@
 /* pages/list/list.wxss */
+page {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.image-item{
+  width: 100%;
+  margin-top:20rpx;
+}

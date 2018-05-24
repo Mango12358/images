@@ -1,2 +1,9 @@
 <!--pages/collector/collector.wxml-->
-<text>pages/collector/collector.wxml</text>
+<view class='main-view'>
+  <block wx:for="{{images}}">
+    <image class='image-item' src='{{item.url}}' mode='aspectFill' lazy-load='true'></image>
+  </block>
+</view>
+<view class='text-view'>
+<label class='text'>没有更多收藏了</label>
+</view>

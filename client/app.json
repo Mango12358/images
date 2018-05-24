@@ -1,18 +1,18 @@
 {
-  "pages":[
+  "pages": [
+    "pages/list/list",
+    "pages/mine/mine",
+    "pages/collector/collector",
+    "pages/picset/picset",
     "pages/index/index",
     "pages/search/search",
-    "pages/collector/collector",
-    "pages/mine/mine",
-    "pages/picset/picset",
-    "pages/list/list",
     "pages/item/item"
   ],
-  "window":{
-  "backgroundColor": "#EEE",
-  "backgroundTextStyle": "light",
-  "navigationBarBackgroundColor": "#FFFF00",
-  "navigationBarTitleText": "图片搜索",
-  "navigationBarTextStyle": "black"
+  "window": {
+    "backgroundColor": "#EEE",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFF00",
+    "navigationBarTitleText": "图片搜索",
+    "navigationBarTextStyle": "black"
   }
 }
