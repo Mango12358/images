@@ -17,3 +17,16 @@ app.use(router.routes())
 
 // 启动程序，监听端口
 app.listen(config.port, () => debug(`listening on port ${config.port}`))
+
+
+// const Koa = require('koa');
+// const fs = require('fs');
+// const https = require('https');
+// const enforceHttps = require('koa-sslify');
+
+// var options = {
+//   key: fs.readFileSync('./ssl/xxxx.key'),
+//   cert: fs.readFileSync('./ssl/xxxx.pem')
+// };
+
+// https.createServer(options, app.callback()).listen(config.port);
