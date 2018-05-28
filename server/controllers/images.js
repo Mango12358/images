@@ -76,10 +76,9 @@ async function get(ctx, next) {
 
   var _id = body.id;
 
-  sql = db.column("id", "cos_uri", "height", "width", "status", "choice").select().where("id", _id).toString()
-  
+  sql = db.column("id", "cos_uri", "height", "width", "status", "choice").select().from("images").where("id", _id).toString()
+
   await db.raw(sql).then(res => {
-    // console.log(res[0])
     ctx.body = res[0]
   }, err => {
     throw new Error(err)
@@ -91,9 +90,56 @@ async function filltag(ctx, next) {
   // const { signature, timestamp, nonce } = ctx.query
   // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
-  const body = ctx.request.body
+  var offset = 0;
+  var step = 10;
+  var isFinished = false;
+  console.log("test")
+
+  while (true) {
+
+    if (isFinished) {
+      break
+    }
+
+    await db.raw("truncate table `tags`").then(res => { }, err => { throw new Error(err) })
+
+    sql = db.column("id", "tag_list").select().from("images").offset(offset).limit(step).toString()
+    await db.raw(sql).then(res => {
+      var data = res[0]
+      offset += data.length;
+      if (data.length == 0) {
+        isFinished = true;
+      }
+      for (var i = 0; i < data.length; i++) {
+        var tmp = data[i].tag_list.split(",");
+        tmp = unique(tmp);
+        var rows = [];
+        for (var j = 0; j < tmp.length; j++) {
+          var row = {};
+          row.target_id = data[i].id;
+          row.target_type = "image";
+          row.tag = tmp[j];
+          rows.push(row);
+        }
+        db.batchInsert("tags", rows).toString();
+      }
+    }, err => {
+      throw new Error(err)
+    })
+  }
 
   ctx.body = 'success'
+}
+
+function unique(arr) {
+  var result = [], hash = {};
+  for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+    if (!hash[elem]) {
+      result.push(elem);
+      hash[elem] = true;
+    }
+  }
+  return result;
 }
 
 module.exports = {

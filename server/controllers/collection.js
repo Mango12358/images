@@ -9,44 +9,83 @@ async function get(ctx, next) {
   // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
   // else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
-  if (ctx.state.$wxInfo.loginState === 1) {
-    // loginState 为 1，登录态校验成功
-    ctx.state.data = ctx.state.$wxInfo.userinfo
-  } else {
-    ctx.state.code = -1
-  }
+  // if (ctx.state.$wxInfo.loginState === 1) {
+  //   // loginState 为 1，登录态校验成功
+  //   ctx.state.data = ctx.state.$wxInfo.userinfo
+  // } else {
+  //   ctx.state.code = -1
+  // }
+  var openId = "1";
 
-  const { query, page } = ctx.query
-
-  var p = page;
-  if (p == undefined) {
-    p = 0;
-    console.log(p)
-  }
-  sql = db.select().from('images').where('type', query).offset(20 * p).limit(20).orderBy("random_index", "asc").toString()
-  console.log(sql)
+  sql = db.select().from('collections').where('openid', openId).toString()
   await db.raw(sql).then(res => {
-    // console.log(res[0])
-    ctx.body = res[0]
+    ctx.body = JSON.parse(res[0][0].content)
   }, err => {
     throw new Error(err)
   })
 }
 
-async function query(ctx, next) {
+async function remove(ctx, next) {
   // 检查签名，确认是微信发出的请求
-  const { signature, timestamp, nonce } = ctx.query
-  if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  // const { signature, timestamp, nonce } = ctx.query
+  // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
   /**
    * 解析微信发送过来的请求体
    * 可查看微信文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/custommsg/receive.html#接收消息和事件
    */
-  const body = ctx.request.body
+  const sid = ctx.request.body.sourceId
+  var openId = "1";
 
-  ctx.body = 'success'
+  var sql = db.select().from('collections').where('openid', openId).toString()
+  console.log(sql)
+  await db.raw(sql).then(async res => {
+    if (res[0].length == 0) throw Error("NOT Found");
+    var content =JSON.parse(res[0][0].content)
+    delete content.sources[sid];
+    var newContent = JSON.stringify(content);
+    await db('collections').update('content', newContent).where('openid', openId);
+    ctx.body = newContent
+  }, err => {
+    throw new Error(err)
+  })
+}
+
+async function add(ctx, next) {
+  // 检查签名，确认是微信发出的请求
+  // const { signature, timestamp, nonce } = ctx.query
+  // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+
+  /**
+   * 解析微信发送过来的请求体
+   * 可查看微信文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/custommsg/receive.html#接收消息和事件
+   */
+  const sid = ctx.request.body.sourceId
+  const imageUri = ctx.request.body.imgUri
+  var openId = "1";
+
+  var sql = db.select().from('collections').where('openid', openId).toString()
+  await db.raw(sql).then(async res => {
+    if (res[0].length == 0) {
+      var content = { sources: {} };
+      content.sources[sid] = { data: new Date(), imgUri: imageUri };
+      var newContent = JSON.stringify(content);
+      await db('collections').insert({ 'content': newContent, "openid": openId });
+      ctx.body = newContent
+    } else {
+      var content = JSON.parse(res[0][0].content)
+      content.sources[sid] = { data: new Date, imgUri: imageUri };
+      var newContent = JSON.stringify(content);
+      await db('collections').update('content', newContent).where('openid', openId);
+      ctx.body = newContent
+    }
+  }, err => {
+    throw new Error(err)
+  })
 }
 
 module.exports = {
-  get
+  get,
+  remove,
+  add
 }

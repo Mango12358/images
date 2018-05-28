@@ -23,18 +23,18 @@ router.post('/upload', controllers.upload)
 
 // 查询Image接口
 router.post('/image/query', controllers.images.query)
-// router.get('/image/get', controllers.images.queryType)
-// router.get('/image/filltag', controllers.images.queryType)
+router.post('/image/get', controllers.images.get)
+router.post('/image/filltag', controllers.images.filltag)
 
 // 收藏接口
-// router.get('/collection/add', controllers.collection.queryType)
-// router.get('/collection/remove', controllers.collection.queryType)
-// router.get('/collection/get', controllers.collection.queryType)
+router.post('/collection/add', controllers.collection.add)
+router.post('/collection/remove', controllers.collection.remove)
+router.post('/collection/get', controllers.collection.get)
 
 // // 图集接口
-// router.get('/picset/add', controllers.images.queryType)
-// router.get('/picset/update', controllers.images.queryType)
-// router.get('/picset/get', controllers.images.queryType)
-// router.get('/picset/delete', controllers.images.queryType)
+router.post('/picset/add', controllers.picset.add)
+router.post('/picset/update', controllers.picset.update)
+router.post('/picset/query', controllers.picset.query)
+router.post('/picset/delete', controllers.picset.del)
 
 module.exports = router
