@@ -35,3 +35,13 @@ CREATE TABLE `cSessionInfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会话管理用户信息';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+CREATE TABLE `cAppinfo` (
+  `appid` char(36) DEFAULT NULL,
+  `secret` char(64) DEFAULT NULL,
+  `ip` char(20) DEFAULT NULL,
+  `login_duration` int(11) DEFAULT NULL,
+  `qcloud_appid` char(64) DEFAULT NULL,
+  `session_duration` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
