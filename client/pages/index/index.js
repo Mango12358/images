@@ -59,13 +59,9 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(self.data.imageData)
+        console.log(self.data)
         var tmp = self.data.imageData[self.data.currentTabId];
-        
         if (tmp == undefined) {
-          var t = {};
-          t["imageData." + self.data.currentTabId] = { page: 0, images: [] };
-          self.setData(t);
           tmp = { page: 0, images: [] };
         }
         console.log(res);
@@ -74,17 +70,15 @@ Page({
           newData.push({ id: res.data[i].id, url: config.properties.imageHost + res.data[i].cos_uri + config.properties.imageType })
         }
         tmp.page = page;
-        tmp.images.concat(newData);
-        var t={};
-        t["imageData." + self.data.currentTabId] = tmp;
+        tmp.images = tmp.images.concat(newData);
         
+        var t = {};
+        var key = "imageData." + self.data.currentTabId
+        t[key] = tmp;
+        console.log(t)
         var showDataTmp = self.data.showImageData;
-        if (self.data.showImageData.id == self.data.currentTabId){
-          showDataTmp.images.concat(newData);
-        }else{
-          showDataTmp.images = tmp.images;
-          showDataTmp.id = self.data.currentTabId;
-        }
+        showDataTmp.images = tmp.images;
+        showDataTmp.id = self.data.currentTabId;
         console.log(showDataTmp)
         t["showImageData"] = showDataTmp;
         self.setData(t);
@@ -104,13 +98,16 @@ Page({
     })
     this.setData({ loading: false });
   },
-  handleTabChange: function (selectedId) {
+  handleTabChange: function (e) {
+    console.log(e)
+    var selectedId = e.detail;
     if (this.data.currentTabId == selectedId) {
       return
     } else {
-      if (this.data.imageData != undefined) {
+      if (this.data.imageData[selectedId] != undefined && this.data.imageData[selectedId].images.length > 0) {
         return
       } else {
+        this.setData({ currentTabId: selectedId })
         this.loadMore();
       }
     }
