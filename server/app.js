@@ -16,17 +16,17 @@ const router = require('./routes')
 app.use(router.routes())
 
 // 启动程序，监听端口
-app.listen(config.port, () => debug(`listening on port ${config.port}`))
+// app.listen(config.port, () => debug(`listening on port ${config.port}`))
 
 
 // const Koa = require('koa');
-// const fs = require('fs');
-// const https = require('https');
-// const enforceHttps = require('koa-sslify');
+const fs = require('fs');
+const https = require('https');
+const enforceHttps = require('koa-sslify');
 
-// var options = {
-//   key: fs.readFileSync('./ssl/xxxx.key'),
-//   cert: fs.readFileSync('./ssl/xxxx.pem')
-// };
+var options = {
+  key: fs.readFileSync('D:\\文档\\Nginx\\2_rest.nhjoke.xyz.key'),
+  cert: fs.readFileSync('D:\\文档\\Nginx\\1_rest.nhjoke.xyz_bundle.crt')
+};
 
-// https.createServer(options, app.callback()).listen(config.port);
+https.createServer(options, app.callback()).listen(config.port);

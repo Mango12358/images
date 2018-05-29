@@ -22,7 +22,7 @@ page {
   position: absolute;
   top: 0rpx;
   left: 0rpx;
-  padding:10rpx;
+  padding: 10rpx;
   display: flex;
 }
 
@@ -59,8 +59,7 @@ page {
   margin-left: 15rpx;
 }
 
-
-.tab-container{
+.tab-container {
   background-color: white;
 }
 
@@ -101,26 +100,30 @@ page {
   color: lightseagreen;
 }
 
-
-.menu-container{
+.menu-container {
   background: white;
   width: 750rpx;
   margin-bottom: 15rpx;
   display: flex;
 }
 
-.menu-view{
+.menu-view {
   width: 20%;
-   text-align: center;
-   display: block;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
-.menu-image{
+
+.menu-image {
   width: 120rpx;
   height: 120rpx;
   margin: auto;
 }
-.menu-label{
-  width: 100%;
+
+.menu-label {
+  width: 120rpx;
   color: gray;
+  font-size: 25rpx;
   line-height: 40rpx;
+  align-self: center;
 }

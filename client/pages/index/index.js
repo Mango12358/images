@@ -2,259 +2,244 @@
 var qcloud = require('../../vendor/wafer2-client-sdk/index')
 var config = require('../../config')
 var util = require('../../utils/util.js')
+const typeMap = {
+  "2": "旅游度假",
+  "3": "自然风光",
+  "4": "地标",
+  "5": "动物",
+  "6": "科技"
+}
 
 Page({
-    data: {
-        userInfo: {},
-        logged: false,
-        takeSession: false,
-        requestResult: '',
-        menuList: [{ image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }, { image: 'mq.jpg', label: "test" }],
-        imgUrls: ["./1.jpg", "./2.jpg", "./1.jpg"],
-        list: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "人物" }, { id: '5', title: "科技" }]
+  data: {
+    userInfo: {},
+    logged: false,
+    takeSession: false,
+    requestResult: '',
+    menuList: [{ image: 'mq.jpg', label: "每日精选" }, { image: 'mq.jpg', label: "热门图片" }, { image: 'mq.jpg', label: "搜索" }, { image: 'mq.jpg', label: "搞笑幽默" }, { image: 'mq.jpg', label: "赞赏" }],
+    tabList: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "地标" }, { id: '5', title: "动物" }, { id: '6', title: "科技" }],
+    swiperUrls: ["./1.jpg", "./2.jpg", "./1.jpg"],
+    showImageData: {
+      images: [],
+      id: "1"
     },
-  
-    tapSearch: function () {
-      // wx.navigateTo({ url: '/pages/search/search' });
-      // wx.navigateTo({ url: '/pages/item/item' });
-      this.bindGetUserInfo();
-    },
-    // 用户登录示例
-    login: function () {
-      if (this.data.logged) return
-
-      util.showBusy('正在登录')
-      var that = this
-
-      // 调用登录接口
-      qcloud.login({
-        success(result) {
-          if (result) {
-            util.showSuccess('登录成功');
-            that.setData({
-              userInfo: result,
-              logged: true
-            })
-          } else {
-            // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
-            qcloud.request({
-              url: config.service.requestUrl,
-              login: true,
-              success(result) {
-                util.showSuccess('登录成功')
-                that.setData({
-                  userInfo: result.data.data,
-                  logged: true
-                })
-              },
-
-              fail(error) {
-                util.showModel('请求失败', error)
-                console.log('request fail', error)
-              }
-            })
-          }
-        },
-
-        fail(error) {
-          util.showModel('登录失败', error)
-          console.log('登录失败', error)
+    currentTabId: "1",
+    imageData: {},
+    loading: false
+  },
+  onShareAppMessage: function (res) {
+    // if (res.from === 'button') {
+    //   console.log(res.target)
+    // }
+    return {
+      title: '大家都在用的图片搜索神器！百万高清图片等你来搜！',
+      path: '/pages/index/index',
+      imageUrl: "./1.jpg"
+    }
+  },
+  loadMore: function () {
+    this.setData({ loading: true });
+    var self = this;
+    var queryData = {};
+    if (this.data.currentTabId == "1") {
+      queryData.choice = true;
+    } else {
+      queryData.type = typeMap[this.data.currentTabId];
+    }
+    var page = 0;
+    if (this.data.imageData[this.data.currentTabId] != undefined) {
+      page = this.data.imageData[this.data.currentTabId].page + 1;
+    }
+    queryData.page = page;
+    wx.request({
+      url: config.service.imageQueryUrl,
+      method: "POST",
+      data: queryData,
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        console.log(self.data.imageData)
+        var tmp = self.data.imageData[self.data.currentTabId];
+        
+        if (tmp == undefined) {
+          var t = {};
+          t["imageData." + self.data.currentTabId] = { page: 0, images: [] };
+          self.setData(t);
+          tmp = { page: 0, images: [] };
         }
-      })
-    },
-    bindGetUserInfo: function (e) {
-      if (this.data.logged) return;
-
-      util.showBusy('正在登录');
-
-      var that = this;
-      var userInfo = e.detail.userInfo;
-
-      // 查看是否授权
-      wx.getSetting({
-        success: function (res) {
-          if (res.authSetting['scope.userInfo']) {
-
-            // 检查登录是否过期
-            wx.checkSession({
-              success: function () {
-                // 登录态未过期
-                util.showSuccess('登录成功');
-                that.setData({
-                  userInfo: userInfo,
-                  logged: true
-                })
-              },
-
-              fail: function () {
-                qcloud.clearSession();
-                // 登录态已过期，需重新登录
-                var options = {
-                  encryptedData: e.detail.encryptedData,
-                  iv: e.detail.iv,
-                  userInfo: userInfo
-                }
-                that.doLogin(options);
-              },
-            });
-          } else {
-            util.showModel('用户未授权', e.detail.errMsg);
-          }
+        console.log(res);
+        var newData = [];
+        for (var i = 0; i < res.data.length; i++) {
+          newData.push({ id: res.data[i].id, url: config.properties.imageHost + res.data[i].cos_uri + config.properties.imageType })
         }
-      });
-    },
-    doLogin: function (options) {
-      var that = this;
+        tmp.page = page;
+        tmp.images.concat(newData);
+        var t={};
+        t["imageData." + self.data.currentTabId] = tmp;
+        
+        var showDataTmp = self.data.showImageData;
+        if (self.data.showImageData.id == self.data.currentTabId){
+          showDataTmp.images.concat(newData);
+        }else{
+          showDataTmp.images = tmp.images;
+          showDataTmp.id = self.data.currentTabId;
+        }
+        console.log(showDataTmp)
+        t["showImageData"] = showDataTmp;
+        self.setData(t);
+        wx.showToast({
+          icon: 'success',
+          title: '加载成功',
+          duration: 1000
+        })
+        console.log(self.data)
+      },
+      fail: function (err) {
+        wx.showToast({
+          title: '加载失败',
+          duration: 1000
+        })
+      }
+    })
+    this.setData({ loading: false });
+  },
+  handleTabChange: function (selectedId) {
+    if (this.data.currentTabId == selectedId) {
+      return
+    } else {
+      if (this.data.imageData != undefined) {
+        return
+      } else {
+        this.loadMore();
+      }
+    }
+  },
+  tapSearch: function () {
+    wx.navigateTo({ url: '/pages/search/search' });
+  },
+  menuTap: function (e) {
+    console.log(e)
+  },
 
-      wx.login({
-        success: function (loginResult) {
-          var loginParams = {
-            code: loginResult.code,
-            encryptedData: options.encryptedData,
-            iv: options.iv,
-          }
-          qcloud.requestLogin({
-            loginParams, success() {
+  bindGetUserInfo: function (e) {
+    if (this.data.logged) return;
+
+    util.showBusy('正在登录');
+
+    var that = this;
+    var userInfo = e.detail.userInfo;
+
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+
+          // 检查登录是否过期
+          wx.checkSession({
+            success: function () {
+              // 登录态未过期
               util.showSuccess('登录成功');
-
               that.setData({
-                userInfo: options.userInfo,
+                userInfo: userInfo,
                 logged: true
               })
             },
-            fail(error) {
-              util.showModel('登录失败', error)
-              console.log('登录失败', error)
-            }
-          });
-        },
-        fail: function (loginError) {
-          util.showModel('登录失败', loginError)
-          console.log('登录失败', loginError)
-        },
-      });
-    },
 
-    // 切换是否带有登录态
-    switchRequestMode: function (e) {
-        this.setData({
-            takeSession: e.detail.value
-        })
-        this.doRequest()
-    },
-
-    doRequest: function () {
-        util.showBusy('请求中...')
-        var that = this
-        var options = {
-            url: config.service.requestUrl,
-            login: true,
-            success (result) {
-                util.showSuccess('请求成功完成')
-                console.log('request success', result)
-                that.setData({
-                    requestResult: JSON.stringify(result.data)
-                })
+            fail: function () {
+              qcloud.clearSession();
+              // 登录态已过期，需重新登录
+              var options = {
+                encryptedData: e.detail.encryptedData,
+                iv: e.detail.iv,
+                userInfo: userInfo
+              }
+              that.doLogin(options);
             },
-            fail (error) {
-                util.showModel('请求失败', error);
-                console.log('request fail', error);
-            }
-        }
-        if (this.data.takeSession) {  // 使用 qcloud.request 带登录态登录
-            qcloud.request(options)
-        } else {    // 使用 wx.request 则不带登录态
-            wx.request(options)
-        }
-    },
-    
-
-    // 预览图片
-    previewImg: function () {
-        wx.previewImage({
-            current: this.data.imgUrl,
-            urls: [this.data.imgUrl]
-        })
-    },
-
-    // 切换信道的按钮
-    switchChange: function (e) {
-        var checked = e.detail.value
-
-        if (checked) {
-            this.openTunnel()
+          });
         } else {
-            this.closeTunnel()
+          util.showModel('用户未授权', e.detail.errMsg);
         }
-    },
+      }
+    });
+  },
+  doLogin: function (options) {
+    var that = this;
 
-    openTunnel: function () {
-        util.showBusy('信道连接中...')
-        // 创建信道，需要给定后台服务地址
-        var tunnel = this.tunnel = new qcloud.Tunnel(config.service.tunnelUrl)
-
-        // 监听信道内置消息，包括 connect/close/reconnecting/reconnect/error
-        tunnel.on('connect', () => {
-            util.showSuccess('信道已连接')
-            console.log('WebSocket 信道已连接')
-            this.setData({ tunnelStatus: 'connected' })
-        })
-
-        tunnel.on('close', () => {
-            util.showSuccess('信道已断开')
-            console.log('WebSocket 信道已断开')
-            this.setData({ tunnelStatus: 'closed' })
-        })
-
-        tunnel.on('reconnecting', () => {
-            console.log('WebSocket 信道正在重连...')
-            util.showBusy('正在重连')
-        })
-
-        tunnel.on('reconnect', () => {
-            console.log('WebSocket 信道重连成功')
-            util.showSuccess('重连成功')
-        })
-
-        tunnel.on('error', error => {
-            util.showModel('信道发生错误', error)
-            console.error('信道发生错误：', error)
-        })
-
-        // 监听自定义消息（服务器进行推送）
-        tunnel.on('speak', speak => {
-            util.showModel('信道消息', speak)
-            console.log('收到说话消息：', speak)
-        })
-
-        // 打开信道
-        tunnel.open()
-
-        this.setData({ tunnelStatus: 'connecting' })
-    },
-
-    /**
-     * 点击「发送消息」按钮，测试使用信道发送消息
-     */
-    sendMessage() {
-        if (!this.data.tunnelStatus || !this.data.tunnelStatus === 'connected') return
-        // 使用 tunnel.isActive() 来检测当前信道是否处于可用状态
-        if (this.tunnel && this.tunnel.isActive()) {
-            // 使用信道给服务器推送「speak」消息
-            this.tunnel.emit('speak', {
-                'word': 'I say something at ' + new Date(),
-            });
+    wx.login({
+      success: function (loginResult) {
+        var loginParams = {
+          code: loginResult.code,
+          encryptedData: options.encryptedData,
+          iv: options.iv,
         }
-    },
+        header[constants.WX_HEADER_CODE] = loginResult.code;
+        header[constants.WX_HEADER_ENCRYPTED_DATA] = options.encryptedData;
+        header[constants.WX_HEADER_IV] = options.iv;
 
-    /**
-     * 点击「关闭信道」按钮，关闭已经打开的信道
-     */
-    closeTunnel() {
-        if (this.tunnel) {
-            this.tunnel.close();
-        }
-        util.showBusy('信道连接中...')
-        this.setData({ tunnelStatus: 'closed' })
+        console.log(loginParams)
+        wx.request({
+          url: config.service.loginUrl,
+          data: loginParams,
+          success: function () {
+            util.showSuccess('登录成功');
+            that.setData({
+              userInfo: options.userInfo,
+              logged: true
+            })
+          },
+          fail: function (error) {
+            util.showModel('登录失败', error)
+            console.log('登录失败', error)
+          }
+        })
+      },
+      fail: function (loginError) {
+        util.showModel('登录失败', loginError)
+        console.log('登录失败', loginError)
+      },
+    });
+  },
+
+  // 切换是否带有登录态
+  switchRequestMode: function (e) {
+    this.setData({
+      takeSession: e.detail.value
+    })
+    this.doRequest()
+  },
+
+  doRequest: function () {
+    util.showBusy('请求中...')
+    var that = this
+    var options = {
+      url: config.service.requestUrl,
+      login: true,
+      success(result) {
+        util.showSuccess('请求成功完成')
+        console.log('request success', result)
+        that.setData({
+          requestResult: JSON.stringify(result.data)
+        })
+      },
+      fail(error) {
+        util.showModel('请求失败', error);
+        console.log('request fail', error);
+      }
     }
+    if (this.data.takeSession) {  // 使用 qcloud.request 带登录态登录
+      qcloud.request(options)
+    } else {    // 使用 wx.request 则不带登录态
+      wx.request(options)
+    }
+  },
+
+
+  // 预览图片
+  previewImg: function () {
+    wx.previewImage({
+      current: this.data.imgUrl,
+      urls: [this.data.imgUrl]
+    })
+  }
 })

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <swiper indicator-dots="true" duration='300' class='swiper-container'>
-    <block wx:for="{{imgUrls}}">
+    <block wx:for="{{swiperUrls}}">
       <swiper-item>
         <image src="{{item}}" class='image-swiper-item' />
       </swiper-item>
@@ -11,12 +11,13 @@
     <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' bindtap='tapSearch' disabled='true'>
     </input>
     <icon type="search" size="18" class='search-icon' />
-    <button class='search-button'  open-type="getUserInfo"  bindgetuserinfo="bindGetUserInfo">分享</button>
+    <button class='search-button' open-type='share'>分享</button>
+    <!-- open-type="getUserInfo"  bindgetuserinfo="bindGetUserInfo" -->
   </view>
 
   <view class='menu-container'>
     <block wx:for="{{menuList}}">
-      <view class='menu-view'>
+      <view id=" {{index}}" class='menu-view' bindtap='menuTap'>
         <image src='{{item.image}}' class='menu-image'></image>
         <label class='menu-label'>{{item.label}}</label>
       </view>
@@ -26,17 +27,15 @@
 
   <view class='tab-container'>
     <view class="tab-view">
-      <zan-tab scroll="true" list="{{ list }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
+      <zan-tab scroll="true" list="{{ tabList }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
     </view>
 
-    <block wx:for="{{imgUrls}}">
+    <block wx:for="{{showImageData.images}}">
       <view class='image-list-view'>
-        <image src="{{item}}" class='image-item' mode='widthFix' lazy-load />
+        <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load="true" />
       </view>
     </block>
-    <view class='load-button-view'>
-      <button class='load-button'>加载更多...</button>
-    </view>
+    <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}">加载更多.</zan-button>
   </view>
 
 </view>

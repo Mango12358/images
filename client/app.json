@@ -27,10 +27,6 @@
         "text": "图集"
       },
       {
-        "pagePath": "pages/search/search",
-        "text": "搜索"
-      },
-      {
         "pagePath": "pages/collector/collector",
         "text": "收藏"
       },

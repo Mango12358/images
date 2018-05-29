@@ -2,7 +2,7 @@
  * ajax 服务路由集合
  */
 const router = require('koa-router')({
-    prefix: '/weapp'
+  prefix: '/weapp'
 })
 const controllers = require('../controllers')
 
@@ -27,11 +27,11 @@ router.post('/image/get', controllers.images.get)
 router.post('/image/filltag', controllers.images.filltag)
 
 // 收藏接口
-router.post('/collection/add', controllers.collection.add)
-router.post('/collection/remove', controllers.collection.remove)
-router.post('/collection/get', controllers.collection.get)
+router.post('/collection/add', validationMiddleware, controllers.collection.add)
+router.post('/collection/remove', validationMiddleware, controllers.collection.remove)
+router.post('/collection/get', validationMiddleware, controllers.collection.get)
 
-// // 图集接口
+//图集接口
 router.post('/picset/add', controllers.picset.add)
 router.post('/picset/update', controllers.picset.update)
 router.post('/picset/query', controllers.picset.query)

@@ -5,17 +5,17 @@ const db = require('../tools/db.js')
  * 响应 GET 请求（响应微信配置时的签名检查请求）
  */
 async function get(ctx, next) {
-  // const { signature, timestamp, nonce, echostr } = ctx.query
-  // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
-  // else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  const { signature, timestamp, nonce, echostr } = ctx.query
+  if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
-  // if (ctx.state.$wxInfo.loginState === 1) {
-  //   // loginState 为 1，登录态校验成功
-  //   ctx.state.data = ctx.state.$wxInfo.userinfo
-  // } else {
-  //   ctx.state.code = -1
-  // }
-  var openId = "1";
+  if (ctx.state.$wxInfo.loginState === 1) {
+    // loginState 为 1，登录态校验成功
+    ctx.state.data = ctx.state.$wxInfo.userinfo
+  } else {
+    throw new Error("User Login Failed.");
+  }
+  var openId = ctx.state.$wxInfo.userinfo.openId;
 
   sql = db.select().from('collections').where('openid', openId).toString()
   await db.raw(sql).then(res => {
@@ -26,9 +26,17 @@ async function get(ctx, next) {
 }
 
 async function remove(ctx, next) {
-  // 检查签名，确认是微信发出的请求
-  // const { signature, timestamp, nonce } = ctx.query
-  // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  const { signature, timestamp, nonce, echostr } = ctx.query
+  if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+
+  if (ctx.state.$wxInfo.loginState === 1) {
+    // loginState 为 1，登录态校验成功
+    ctx.state.data = ctx.state.$wxInfo.userinfo
+  } else {
+    throw new Error("User Login Failed.");
+  }
+  var openId = ctx.state.$wxInfo.userinfo.openId;
 
   /**
    * 解析微信发送过来的请求体
@@ -41,7 +49,7 @@ async function remove(ctx, next) {
   console.log(sql)
   await db.raw(sql).then(async res => {
     if (res[0].length == 0) throw Error("NOT Found");
-    var content =JSON.parse(res[0][0].content)
+    var content = JSON.parse(res[0][0].content)
     delete content.sources[sid];
     var newContent = JSON.stringify(content);
     await db('collections').update('content', newContent).where('openid', openId);
@@ -52,9 +60,17 @@ async function remove(ctx, next) {
 }
 
 async function add(ctx, next) {
-  // 检查签名，确认是微信发出的请求
-  // const { signature, timestamp, nonce } = ctx.query
-  // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  const { signature, timestamp, nonce, echostr } = ctx.query
+  if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+
+  if (ctx.state.$wxInfo.loginState === 1) {
+    // loginState 为 1，登录态校验成功
+    ctx.state.data = ctx.state.$wxInfo.userinfo
+  } else {
+    throw new Error("User Login Failed.");
+  }
+  var openId = ctx.state.$wxInfo.userinfo.openId;
 
   /**
    * 解析微信发送过来的请求体

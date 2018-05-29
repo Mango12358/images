@@ -2,6 +2,8 @@
   "navigationBarTitleText": "首页",
   "backgroundColor": "#EEE",
   "usingComponents": {
+    "zan-button": "../../zanui/dist/btn/index",
+    "zan-button-group": "../../zanui/dist/btn-group/index",
     "zan-tab": "../../zanui/dist/tab/index"
   }
 }
