@@ -181,6 +181,7 @@ Page({
           encryptedData: options.encryptedData,
           iv: options.iv,
         }
+        var header = {};
         header[constants.WX_HEADER_CODE] = loginResult.code;
         header[constants.WX_HEADER_ENCRYPTED_DATA] = options.encryptedData;
         header[constants.WX_HEADER_IV] = options.iv;
@@ -189,6 +190,7 @@ Page({
         wx.request({
           url: config.service.loginUrl,
           data: loginParams,
+          header: header,
           success: function () {
             util.showSuccess('登录成功');
             that.setData({

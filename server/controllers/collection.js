@@ -19,7 +19,12 @@ async function get(ctx, next) {
 
   sql = db.select().from('collections').where('openid', openId).toString()
   await db.raw(sql).then(res => {
-    ctx.body = JSON.parse(res[0][0].content)
+    if (res[0].length == 0 ) {
+      ctx.body = "";
+    }else{
+      ctx.body = JSON.parse(res[0][0].content)
+    }
+    
   }, err => {
     throw new Error(err)
   })

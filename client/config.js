@@ -20,7 +20,13 @@ var config = {
         // 图片获取接口
         imageGetUrl: `${host}/weapp/image/get`,
         // 图片查询接口
-        imageQueryUrl: `${host}/weapp/image/query`
+        imageQueryUrl: `${host}/weapp/image/query`,
+        // 收藏查询接口
+        collectionGetUrl: `${host}/weapp/collection/get`,
+        // 收藏Add接口
+        collectionAddUrl: `${host}/weapp/collection/add`,
+        // 收藏Remove接口
+        collectionRemoveUrl: `${host}/weapp/collection/remove`
     },
     properties:{
       imageHost:"https://rest.nhjoke.xyz/",

@@ -1,7 +1,7 @@
 <!--pages/collector/collector.wxml-->
 <view class='main-view'>
   <block wx:for="{{images}}">
-    <image class='image-item' src='{{item.url}}' mode='aspectFill' lazy-load='true'></image>
+    <image class='image-item' src='{{item.url}}' mode='aspectFill' lazy-load='true' id='{{item.id}}' bindtap='tapImage'></image>
   </block>
 </view>
 <view class='text-view'>

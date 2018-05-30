@@ -3,7 +3,7 @@
   <view class="userinfo" bindtap="login">
     <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}" background-size="cover"></image>
     <view>
-      <text class="userinfo-nickname">{{logged ? userInfo.nickName : '登录'}}</text>
+      <button class="userinfo-nickname" open-type="getUserInfo"  bindgetuserinfo="bindGetUserInfo">{{logged ? userInfo.nickName : '登录'}}</button>
       <text class="userinfo-nickname" wx:if="{{logged}}">{{userInfo.lastLoginTime}}</text>
     </view>
   </view>
