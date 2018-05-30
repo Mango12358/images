@@ -1,0 +1,17 @@
+<!--pages/collector/collector.wxml-->
+
+<swiper indicator-dots="true" duration='300' class='swiper-container'>
+  <block wx:for="{{swiperUrls}}">
+    <swiper-item>
+      <image src="{{item}}" class='image-swiper-item' />
+    </swiper-item>
+  </block>
+</swiper>
+
+<view class='main-view'>
+  <block wx:for="{{images}}">
+    <view class='image-item text-view' id='{{item.name}}' style='background: url({{item.url}}) no-repeat;background-size:cover;' bindtap='tapItem'>
+      <label class='text'>{{item.name}}</label>
+    </view>
+  </block>
+</view>

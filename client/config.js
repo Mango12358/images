@@ -23,8 +23,9 @@ var config = {
         imageQueryUrl: `${host}/weapp/image/query`
     },
     properties:{
-      imageHost:"https://rest.nhjoke.xyz/images/view",
-      imageType:"/small"
+      imageHost:"https://rest.nhjoke.xyz/",
+      imageType:"",
+      swiperImages: ["/pages/index/1.jpg", "/pages/index/2.jpg", "/pages/index/1.jpg"]
     }
 };
 

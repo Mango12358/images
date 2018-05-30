@@ -12,8 +12,9 @@
       <zan-cell title="我的收藏" is-link="{{true}}" url="/pages/collector/collector">
         <text slot="icon" class="fa fa-heart-o icon-item" />
       </zan-cell>
-      <zan-cell title="分享">
+      <zan-cell title="">
         <text slot="icon" class="fa fa-share-square-o icon-item" />
+        <button open-type='share' class='sharebutton'>分享</button>
       </zan-cell>
       <zan-cell title="赞赏">
         <text slot="icon" class="fa fa-thumbs-o-up icon-item" />
@@ -27,11 +28,12 @@
 
   <view class='cell-view'>
     <zan-cell-group>
-      <zan-cell title="给我们打赏" is-link="{{true}}" url="/pages/collector/collector">
+      <zan-cell title="打赏作者" bindtap="diamond">
         <text slot="icon" class="fa fa-diamond icon-item" />
       </zan-cell>
-      <zan-cell title="关于我们">
+      <zan-cell title="">
         <text slot="icon" class="fa fa-info-circle icon-item" />
+        <button open-type="contact" class='sharebutton'>关于我们</button>
       </zan-cell>
     </zan-cell-group>
   </view>

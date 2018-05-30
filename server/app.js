@@ -17,7 +17,9 @@ app.use(router.routes())
 
 // 启动程序，监听端口
 // app.listen(config.port, () => debug(`listening on port ${config.port}`))
-
+const static = require('koa-static')
+const path = require('path')
+app.use(static("E:\\images\\travel\\"))
 
 // const Koa = require('koa');
 const fs = require('fs');

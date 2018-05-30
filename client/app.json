@@ -4,6 +4,7 @@
     "pages/list/list",
     "pages/mine/mine",
     "pages/collector/collector",
+    "pages/imgtype/imgtype",
     "pages/picset/picset",
     "pages/search/search",
     "pages/item/item"
@@ -27,8 +28,8 @@
         "text": "图集"
       },
       {
-        "pagePath": "pages/collector/collector",
-        "text": "收藏"
+        "pagePath": "pages/imgtype/imgtype",
+        "text": "分类"
       },
       {
         "pagePath": "pages/mine/mine",

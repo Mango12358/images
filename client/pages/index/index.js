@@ -18,7 +18,7 @@ Page({
     requestResult: '',
     menuList: [{ image: 'mq.jpg', label: "每日精选" }, { image: 'mq.jpg', label: "热门图片" }, { image: 'mq.jpg', label: "搜索" }, { image: 'mq.jpg', label: "搞笑幽默" }, { image: 'mq.jpg', label: "赞赏" }],
     tabList: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "地标" }, { id: '5', title: "动物" }, { id: '6', title: "科技" }],
-    swiperUrls: ["./1.jpg", "./2.jpg", "./1.jpg"],
+    swiperUrls: config.properties.swiperImages,
     showImageData: {
       images: [],
       id: "1"
@@ -38,8 +38,10 @@ Page({
     }
   },
   loadMore: function () {
-    this.setData({ loading: true });
     var self = this;
+
+    this.setData({ loading: true });
+
     var queryData = {};
     if (this.data.currentTabId == "1") {
       queryData.choice = true;
@@ -51,6 +53,7 @@ Page({
       page = this.data.imageData[this.data.currentTabId].page + 1;
     }
     queryData.page = page;
+
     wx.request({
       url: config.service.imageQueryUrl,
       method: "POST",
@@ -64,18 +67,21 @@ Page({
         if (tmp == undefined) {
           tmp = { page: 0, images: [] };
         }
-        console.log(res);
+
         var newData = [];
         for (var i = 0; i < res.data.length; i++) {
-          newData.push({ id: res.data[i].id, url: config.properties.imageHost + res.data[i].cos_uri + config.properties.imageType })
+          var uri = res.data[i].cos_uri;
+          uri = res.data[i].source_id + ".jpg"
+          newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
         }
         tmp.page = page;
         tmp.images = tmp.images.concat(newData);
-        
+        console.log(tmp)
+
         var t = {};
         var key = "imageData." + self.data.currentTabId
         t[key] = tmp;
-        console.log(t)
+
         var showDataTmp = self.data.showImageData;
         showDataTmp.images = tmp.images;
         showDataTmp.id = self.data.currentTabId;
@@ -85,18 +91,20 @@ Page({
         wx.showToast({
           icon: 'success',
           title: '加载成功',
-          duration: 1000
+          duration: 500
         })
         console.log(self.data)
+        self.setData({ loading: false });
       },
       fail: function (err) {
         wx.showToast({
           title: '加载失败',
-          duration: 1000
+          duration: 500
         })
+        self.setData({ loading: false });
       }
     })
-    this.setData({ loading: false });
+
   },
   handleTabChange: function (e) {
     console.log(e)
@@ -104,10 +112,13 @@ Page({
     if (this.data.currentTabId == selectedId) {
       return
     } else {
+      this.setData({ currentTabId: selectedId })
       if (this.data.imageData[selectedId] != undefined && this.data.imageData[selectedId].images.length > 0) {
-        return
+        var showDataTmp = this.data.showImageData;
+        showDataTmp.images = this.data.imageData[selectedId].images;
+        showDataTmp.id = this.data.currentTabId;
+        this.setData({ showImageData: showDataTmp });
       } else {
-        this.setData({ currentTabId: selectedId })
         this.loadMore();
       }
     }
