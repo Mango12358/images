@@ -22,6 +22,7 @@ page {
   opacity: 0.6;
   width: 550rpx;
   height: 60rpx;
+  font-size:30rpx;
   border-radius: 30rpx;
 }
 

@@ -1,10 +1,10 @@
 <view class="container">
-  <image src='{{image.url}}' class='main-image' mode='widthFix'></image>
+  <image src='{{image.url}}' class='main-image' mode='widthFix' bindtap='previewImage'></image>
   <view class='main-icon-view'>
-    <text class="fa fa-thumbs-o-up icon-item" />
-    <text class="fa fa-heart-o icon-item" />
-    <text class="fa fa-cloud-download icon-item" />
-    <text class="fa fa-share-square-o icon-item" />
+    <text class="fa fa-thumbs-o-up icon-item" bindtap='diamondTap'/>
+    <text class="fa fa-heart-o icon-item" bindtap='collctorTap' />
+    <text class="fa fa-cloud-download icon-item" bindtap='download'/>
+    <button class="fa fa-share-square-o icon-item button-item" open-type='share'/>
   </view>
 
   <view class='similar-view'>

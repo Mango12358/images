@@ -1,37 +1,35 @@
 <view class="container">
   <view class='search-flex-view'>
-    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place'></input>
+    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' id='input' confirm-type='search' bindconfirm='searchTap' value='{{query}}'></input>
     <icon type="search" size="18" class='search-icon' />
-    <button class='search-button'>搜索</button>
+    <button class='search-button' bindtap='searchTap'>搜索</button>
   </view>
 
   <view style='height:80rpx'></view>
 
 
-  <view class='history-tab-view' wx:if="{{history.length > 0}}">
+  <view class='history-tab-view' wx:if="{{history.length > 0 && !searched}}">
     <label class='history-label'>历史</label>
     <zan-button-group style="width:100%">
       <block wx:for="{{history}}">
-        <zan-button type='primary' size="small" plain>{{item}}</zan-button>
+        <zan-button type='primary' size="mini" plain bindtap='historyTap' id='{{item}}'>{{item}}</zan-button>
       </block>
     </zan-button-group>
   </view>
 
-  <view class='history-tab-view' wx:if="{{hot.length > 0}}">
+  <view class='history-tab-view' wx:if="{{hot.length > 0 && !searched}}">
     <label class='history-label'>热门搜索</label>
     <zan-button-group style="width:100%">
       <block wx:for="{{hot}}">
-        <zan-button type='danger' size="small" plain>{{item}}</zan-button>
+        <zan-button type='danger' size="mini" plain bindtap='historyTap' id='{{item}}'>{{item}}</zan-button>
       </block>
     </zan-button-group>
   </view>
 
   <block wx:for="{{imgUrls}}">
     <view class='image-list-view'>
-      <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
+      <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load='true' bindtap='imageTap' />
     </view>
   </block>
-  <view class='load-button-view'>
-    <button class='load-button'>加载更多...</button>
-  </view>
+  <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}" wx:if="{{searched}}">加载更多</zan-button>
 </view>

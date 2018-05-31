@@ -1,7 +1,7 @@
 <view class="container">
   <block wx:for="{{imgUrls}}">
-      <image src="{{item}}" class='image-item' mode='widthFix' lazy-load/>
-      <label class='image-text'>非常好</label>
+      <image src="{{item.url}}" class='image-item' mode='widthFix' lazy-load="true" id='{{item.id}}' bindtap='imageTap'/>
+      <label class='image-text'>{{item.name}}</label>
   </block>
-  <zan-button type="primary" size='small' plain='true'>加载更多.</zan-button>
+  <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}">加载更多</zan-button>
 </view>

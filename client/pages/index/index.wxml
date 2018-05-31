@@ -35,7 +35,7 @@
         <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load="true" />
       </view>
     </block>
-    <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}">加载更多.</zan-button>
+    <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}">加载更多</zan-button>
   </view>
 
 </view>

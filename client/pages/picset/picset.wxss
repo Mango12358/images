@@ -15,8 +15,9 @@ page {
 .image-text{
   height: 50rpx;
   width: 100%;
-  background: lightgray;
+  background: white;
   opacity: 0.6;
   font-size: 30rpx;
+  color: gray;
   align-content: left;
 }

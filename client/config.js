@@ -26,7 +26,10 @@ var config = {
         // 收藏Add接口
         collectionAddUrl: `${host}/weapp/collection/add`,
         // 收藏Remove接口
-        collectionRemoveUrl: `${host}/weapp/collection/remove`
+        collectionRemoveUrl: `${host}/weapp/collection/remove`,
+         // 收藏查询接口
+        picsetQueryUrl: `${host}/weapp/picset/query`,
+        
     },
     properties:{
       imageHost:"https://rest.nhjoke.xyz/",

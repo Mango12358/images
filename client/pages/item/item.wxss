@@ -30,7 +30,7 @@ page {
   border-left: 5rpx solid gray;
 }
 
-.similar-image{
+.similar-image {
   width: 355rpx;
   display: inline-block;
   padding: 10rpx;
@@ -60,4 +60,17 @@ page {
   font-size: 45rpx;
   align-content: center;
   /* border-left: 1rpx solid gray; */
+}
+
+.button-item {
+  background: transparent;
+  padding: 0rpx !important;
+  margin: 0rpx !important;
+  height: 45rpx;
+  font-size: 47rpx;
+  line-height: 60rpx;
+}
+
+button::after {
+  border: none;
 }
