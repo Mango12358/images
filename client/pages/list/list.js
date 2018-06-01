@@ -1,66 +1,126 @@
 // pages/list/list.js
+var qcloud = require('../../vendor/wafer2-client-sdk/index')
+var config = require('../../config')
+var util = require('../../utils/util.js')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    imgUrls: ["../index/1.jpg", "../index/2.jpg", "../index/1.jpg"]
+    imgUrls: [],
+    currentPage: 0,
+    showLoadMore: true,
+    listInfo: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
-  },
+    var useOptions = {};
+    if (Object.getOwnPropertyNames(options).length > 0) {
+      useOptions = options;
+    } else {
+      useOptions = getApp().globalQuery
+    }
+    var data = { startPage: 0 };
+    if (useOptions.type != undefined) {
+      data.type = useOptions.type
+    }
+    if (useOptions.startPage != undefined) {
+      data.startPage = useOptions.startPage
+    }
+    if (useOptions.imgType != undefined) {
+      data.imgType = useOptions.imgType
+    }
+    if (useOptions.imgChoice != undefined) {
+      data.imgChoice = useOptions.imgChoice
+    }
+    if (useOptions.picsetId != undefined) {
+      data.picsetId = useOptions.picsetId
+    }
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
+    if (useOptions.title != undefined) {
+      data.title = useOptions.title
+    }
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+    this.setData({
+      currentPage: data.startPage,
+      listInfo: data,
+      showLoadMore: data.type == "picset"
+    })
+    if (data.title != undefined) {
+      wx.setNavigationBarTitle({
+        title: data.title,
+      })
+    }
+    this.loadMore();
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
+  imageTap:function(e){
+    wx.navigateTo({
+      url: '/pages/item/item?id=' + e.target.id,
+    })
   },
+  loadMore: function () {
+    var self = this;
+    this.setData({ loading: true });
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
+    var queryData = {};
+    queryData.page = self.data.currentPage;
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
+    if (self.data.listInfo.type == "picset" && self.data.listInfo.picsetId != undefined) {
+      queryData.picsetId = self.data.listInfo.picsetId;
+    } else {
+      if (self.data.listInfo.imgType != null) {
+        queryData.type = self.data.listInfo.imgType;
+      }
+      if (self.data.listInfo.imgChoice != null) {
+        queryData.choice = self.data.listInfo.imgChoice;
+      }
+    }
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
+    wx.request({
+      url: config.service.imageQueryUrl,
+      method: "POST",
+      data: queryData,
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        console.log(self.data)
+
+        var newData = [];
+        for (var i = 0; i < res.data.length; i++) {
+          var uri = res.data[i].cos_uri;
+          uri = res.data[i].source_id + ".jpg"
+          newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
+        }
+        var images = self.data.imgUrls;
+        images = images.concat(newData);
+
+        self.setData({ imgUrls: images });
+        self.setData({ loading: false });
+      },
+      fail: function (err) {
+        wx.showToast({
+          title: '加载失败',
+          duration: 500
+        })
+        self.setData({ loading: false });
+      }
+    })
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+    return {
+      title: '大家都在用的图片搜索神器！百万高清图片等你来搜！',
+      path: '/pages/index/index',
+      imageUrl: "/pages/index/1.jpg"
+    }
   }
 })

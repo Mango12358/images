@@ -74,3 +74,28 @@ page {
 button::after {
   border: none;
 }
+
+.bottom-view {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.bottom-item {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: lightgrey ;
+  color: gray;
+  padding: 0rpx;
+  font-size: 60rpx;
+  /* align-self: center; */
+  line-height: 80rpx;
+  margin-bottom: 100rpx;
+  margin-right: 50rpx;
+}

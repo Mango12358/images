@@ -79,12 +79,6 @@ Page({
         // console.log(tmp)
         // self.setData({ imgUrls: tmp, page: self.data.page + 1 });
 
-
-        wx.showToast({
-          icon: 'success',
-          title: '加载成功',
-          duration: 500
-        })
         self.setData({ loading: false });
       },
       fail: function (err) {
@@ -94,6 +88,11 @@ Page({
         })
         self.setData({ loading: false });
       }
+    })
+  },
+  toHome:function(){
+    wx.switchTab({
+      url: '/pages/index/index'
     })
   },
   previewImage: function () {

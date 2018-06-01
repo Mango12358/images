@@ -36,6 +36,7 @@ page {
 .userinfo-nickname {
   font-size: 32rpx;
   color: #007aff;
+  background: transparent;
 }
 
 .cell-view {

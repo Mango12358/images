@@ -14,7 +14,10 @@
         <image class='similar-image' src='{{item.url}}' mode='widthFix'></image>
       </block>
     </view>
+  </view>
 
+  <view class='bottom-view'>
+    <text class='fa fa-home icon-item bottom-item' bindtap='toHome'></text>
   </view>
 
 

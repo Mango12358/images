@@ -43,7 +43,7 @@ Page({
 
   tapItem: function (e) { 
     wx.navigateTo({
-      url: '/pages/list/list?type=' + e.target.id,
+      url: '/pages/list/list?type=' + e.target.id
     })
   },
   /**

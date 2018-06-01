@@ -31,5 +31,5 @@
       <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load='true' bindtap='imageTap' />
     </view>
   </block>
-  <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}" wx:if="{{searched}}">加载更多</zan-button>
+  <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}" wx:if="{{searched}}" class='load-button'>加载更多</zan-button>
 </view>

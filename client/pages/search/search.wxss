@@ -78,21 +78,16 @@ page {
   width: 750rpx;
 }
 
-.load-button-view {
-  width: 100%;
-  opacity: 0.8;
-  height: 100rpx;
-  margin-top: 10rpx;
-  margin-bottom: 100rpx;
-  padding-left: 50rpx;
-  padding-right: 50rpx;
-}
 
 .load-button {
+  margin-top: 10rpx;
   width: 100%;
-  height: 60rpx;
+  height: 70rpx;
+  padding: 0 10rpx;
   font-size: 24rpx;
   border-radius: 5rpx;
   line-height: 60rpx;
+  display: flex;
+  justify-content: center;
   color: lightseagreen;
 }
