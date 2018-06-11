@@ -17,10 +17,17 @@
 
   <view class='menu-container'>
     <block wx:for="{{menuList}}">
-      <view id=" {{index}}" class='menu-view' bindtap='menuTap'>
+      <!-- <view  bindtap='menuTap'> -->
+      <navigator wx:if="{{item.target == undefinded}}" url="{{item.url}}" id=" {{index}}" class='menu-view' hover-class="none">
         <image src='{{item.image}}' class='menu-image'></image>
         <label class='menu-label'>{{item.label}}</label>
-      </view>
+      </navigator>
+
+      <navigator wx:if="{{item.target != undefinded}}" target="miniProgram" app-id="{{item.appId}}" path="{{item.url}}" id=" {{index}}" class='menu-view' version="develop" hover-class="none">
+        <image src='{{item.image}}' class='menu-image'></image>
+        <label class='menu-label'>{{item.label}}</label>
+      </navigator>
+      <!-- </view> -->
     </block>
   </view>
 
@@ -32,7 +39,7 @@
 
     <block wx:for="{{showImageData.images}}">
       <view class='image-list-view'>
-        <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load="true" />
+        <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load="true" bindtap='tapImage'/>
       </view>
     </block>
     <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}" class='load-button'>加载更多</zan-button>

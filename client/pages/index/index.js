@@ -3,8 +3,8 @@ var qcloud = require('../../vendor/wafer2-client-sdk/index')
 var config = require('../../config')
 var util = require('../../utils/util.js')
 const typeMap = {
-  "2": "旅游度假",
-  "3": "自然风光",
+  "2": "旅游",
+  "3": "风景",
   "4": "地标",
   "5": "动物",
   "6": "科技"
@@ -16,7 +16,7 @@ Page({
     logged: false,
     takeSession: false,
     requestResult: '',
-    menuList: [{ image: 'mq.jpg', label: "每日精选" }, { image: 'mq.jpg', label: "热门图片" }, { image: 'mq.jpg', label: "搜索" }, { image: 'mq.jpg', label: "搞笑幽默" }, { image: 'mq.jpg', label: "赞赏" }],
+    menuList: [{ image: 'mq.jpg', label: "每日精选", url: "/pages/list/list?" }, { image: 'mq.jpg', label: "热门图片", url: "/pages/list/list?" }, { image: 'mq.jpg', label: "搜索", url: "/pages/search/search" }, { image: 'mq.jpg', label: "搞笑幽默", url: "/pages/search/search", target: "mini", appId: "appId" }, { image: 'mq.jpg', label: "赞赏", url: "/pages/search/search", target: "mini", appId: "appId" }],
     tabList: [{ id: '1', title: "精选" }, { id: '2', title: "旅游" }, { id: '3', title: "风景" }, { id: '4', title: "地标" }, { id: '5', title: "动物" }, { id: '6', title: "科技" }],
     swiperUrls: config.properties.swiperImages,
     showImageData: {
@@ -71,8 +71,7 @@ Page({
         var newData = [];
         for (var i = 0; i < res.data.length; i++) {
           var uri = res.data[i].cos_uri;
-          uri = res.data[i].source_id + ".jpg"
-          newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
+          newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri })
         }
         tmp.page = page;
         tmp.images = tmp.images.concat(newData);
@@ -88,17 +87,11 @@ Page({
         console.log(showDataTmp)
         t["showImageData"] = showDataTmp;
         self.setData(t);
-        wx.showToast({
-          icon: 'success',
-          title: '加载成功',
-          duration: 500
-        })
-        console.log(self.data)
         self.setData({ loading: false });
       },
       fail: function (err) {
         wx.showToast({
-          title: '加载失败',
+          title: '加载失败，请重试',
           duration: 500
         })
         self.setData({ loading: false });
@@ -250,6 +243,14 @@ Page({
     wx.previewImage({
       current: this.data.imgUrl,
       urls: [this.data.imgUrl]
+    })
+  },
+  onLoad: function () {
+    this.loadMore();
+  },
+  tapImage: function (e) {
+    wx.navigateTo({
+      url: '/pages/item/item?id=' + e.target.id,
     })
   }
 })

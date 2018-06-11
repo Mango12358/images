@@ -19,7 +19,7 @@ app.use(router.routes())
 // app.listen(config.port, () => debug(`listening on port ${config.port}`))
 const static = require('koa-static')
 const path = require('path')
-app.use(static("E:\\images\\travel\\"))
+app.use(static("E:\\images\\"))
 
 // const Koa = require('koa');
 const fs = require('fs');

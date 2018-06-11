@@ -47,7 +47,8 @@ Page({
         hh.splice(0, hh.length - 8);
       }
       wx.setStorageSync("history", hh)
-      that.setData({ history: hh, page: 0, query: res.value, searched: true })
+      that.setData({ history: hh, page: 0, query: res.value, searched: true, imgUrls: [] })
+      that.data.imgUrls=[];
       that.loadMore()
     }).exec()
   },
@@ -77,7 +78,7 @@ Page({
         var newData = [];
         for (var i = 0; i < res.data.length; i++) {
           var uri = res.data[i].cos_uri;
-          uri = res.data[i].source_id + ".jpg"
+          // uri = res.data[i].source_id + ".jpg"
           newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
         }
         tmp = tmp.concat(newData);
@@ -101,7 +102,7 @@ Page({
     })
   },
   historyTap: function (e) {
-    this.setData({ query: e.target.id, page: 0 })
+    this.setData({ query: e.target.id, page: 0, searched: true })
     this.loadMore()
   },
   /**

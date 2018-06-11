@@ -30,8 +30,9 @@ async function query(ctx, next) {
     console.log(words);
     var subquery = db.select("target_id").from('tags').orderBy("random_index", "asc").offset(20 * _page).limit(20);
 
-    for (var i = 0; i < words.lenght; i++) {
+    for (var i = 0; i < words.length; i++) {
       if (i == 0) {
+        console.log(subquery)
         subquery = subquery.where("tag", "like", words[i].w + "%")
       } else {
         subquery = subquery.orWhere("tag", "like", words[i].w + "%")
@@ -94,14 +95,13 @@ async function filltag(ctx, next) {
   var step = 10;
   var isFinished = false;
   console.log("test")
-
+  await db.raw("truncate table `tags`").then(res => { }, err => { throw new Error(err) })
+  
   while (true) {
 
     if (isFinished) {
       break
     }
-
-    await db.raw("truncate table `tags`").then(res => { }, err => { throw new Error(err) })
 
     sql = db.column("id", "tag_list").select().from("images").offset(offset).limit(step).toString()
     await db.raw(sql).then(res => {
