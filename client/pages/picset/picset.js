@@ -29,17 +29,18 @@ Page({
         //TODO SET DATA
         for (var i = 0; i < res.data.length; i++) {
           var uri = res.data[i].cos_uri;
-          uri = res.data[i].source_id + ".jpg"
           newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
         }
         tmp = tmp.concat(newData);
         console.log(tmp)
         self.setData({ imgUrls: tmp, page: self.data.page + 1 });
-        wx.showToast({
-          icon: 'success',
-          title: '加载成功',
-          duration: 500
-        })
+        if(newData.length == 0){
+          wx.showToast({
+            icon: 'success',
+            title: '没有更多了',
+            duration: 500
+          })
+        }
         self.setData({ loading: false });
       },
       fail: function (err) {

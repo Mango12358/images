@@ -10,15 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    images: [{
-      url: "../index/1.jpg"
-    }, {
-      url: "../index/1.jpg"
-    }, {
-      url: "../index/1.jpg"
-    }, {
-      url: "../index/1.jpg"
-    }]
+    images: []
   },
   getCollections: function () {
     var that = this;
@@ -59,11 +51,6 @@ Page({
           // 检查登录是否过期
           wx.checkSession({
             success: function () {
-              // 登录态未过期
-              // that.setData({
-              //   userInfo: userInfo,
-              //   logged: true
-              // })
               
             },
 
