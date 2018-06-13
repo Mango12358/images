@@ -5,5 +5,6 @@
   </block>
 </view>
 <view class='text-view'>
-<label class='text'>没有更多收藏了</label>
+  <label class='text' wx:if="{{isLogin}}">没有更多收藏了</label>
+  <zan-button type="primary" size='large' plain='false' bindtap='tologin' wx:if="{{!isLogin}}" class='login-button'>请登录</zan-button>
 </view>

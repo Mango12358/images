@@ -76,11 +76,28 @@ async function get(ctx, next) {
   const body = ctx.request.body
 
   var _id = body.id;
+ 
 
   sql = db.column("id", "cos_uri", "height", "width", "status", "choice").select().from("images").where("id", _id).toString()
 
-  await db.raw(sql).then(res => {
-    ctx.body = res[0]
+  await db.raw(sql).then(async res => {
+    if(res[0].length == 0 ) {
+      throw new Error("NOT Found")
+    }
+    var result = {}
+    result["id"] = res[0][0].id
+    result["uri"] = res[0][0].cos_uri
+    sql = db.column("id", "cos_uri").select().from("images").where("id",">", _id).limit(2).toString()
+    await db.raw(sql).then(res => {
+      result["similar"] = [];
+      for(var x=0; x < res[0].length; x ++){
+        var tmp = {};
+        tmp["id"] = res[0][x].id
+        tmp["uri"] = res[0][x].cos_uri
+        result["similar"].push(tmp)
+      }
+      ctx.body = result;
+    }, err => {})
   }, err => {
     throw new Error(err)
   })
@@ -96,14 +113,14 @@ async function filltag(ctx, next) {
   var isFinished = false;
   console.log("test")
   await db.raw("truncate table `tags`").then(res => { }, err => { throw new Error(err) })
-  
+
   while (true) {
 
     if (isFinished) {
       break
     }
 
-    sql = db.column("id", "tag_list").select().from("images").offset(offset).limit(step).toString()
+    sql = db.column("id", "type", "tag_list").select().from("images").offset(offset).limit(step).toString()
     await db.raw(sql).then(res => {
       var data = res[0]
       offset += data.length;
@@ -112,6 +129,7 @@ async function filltag(ctx, next) {
       }
       for (var i = 0; i < data.length; i++) {
         var tmp = data[i].tag_list.split(",");
+        tmp.push(data[i].type)
         tmp = unique(tmp);
         var rows = [];
         for (var j = 0; j < tmp.length; j++) {
@@ -134,9 +152,9 @@ async function filltag(ctx, next) {
 function unique(arr) {
   var result = [], hash = {};
   for (var i = 0, elem; (elem = arr[i]) != null; i++) {
-    if (!hash[elem]) {
+    if (!hash[elem.toLowerCase()]) {
       result.push(elem);
-      hash[elem] = true;
+      hash[elem.toLowerCase()] = true;
     }
   }
   return result;

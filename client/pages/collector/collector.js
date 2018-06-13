@@ -10,30 +10,42 @@ Page({
    * 页面的初始数据
    */
   data: {
-    images: []
+    images: [],
+    isLogin: false
   },
   getCollections: function () {
     var that = this;
     this.checkSession();
-    var requestData = {}
     var option = {
       url: config.service.collectionGetUrl,
       login: true,
       method: 'POST',
-      data: requestData,
+      data: {},
       success(result) {
-        util.showSuccess('请求成功完成')
+        // util.showSuccess('请求成功完成')
         console.log('request success', result)
+        var tmp = []
+        for (var sid in result.data.sources) {
+          var t = {};
+          t["url"] = config.properties.imageHost + result.data.sources[sid].imgUri + config.properties.imageType;
+          t["id"] = sid;
+          tmp.push(t);
+        };
         that.setData({
-          requestResult: JSON.stringify(result.data)
+          images: tmp
         })
       },
       fail(error) {
-        util.showModel('请求失败', error);
+        util.showModel('请求失败,请检查网络', error);
         console.log('request fail', error);
       }
     }
     qcloud.request(option)
+  },
+  tapImage:function(e){
+    wx.navigateTo({
+      url: '/pages/item/item?id=' + e.target.id,
+    })
   },
   checkSession: function () {
     // 查看是否授权
@@ -43,49 +55,34 @@ Page({
         if (res.authSetting['scope.userInfo']) {
           var userInfo;
           wx.getUserInfo({
-            success:function(info){
-              console.log(info);
+            success: function (info) {
               userInfo = info;
             }
           })
           // 检查登录是否过期
           wx.checkSession({
             success: function () {
-              
+              that.setData({ isLogin: true })
             },
-
             fail: function () {
               qcloud.clearSession();
-              // 登录态已过期，需重新登录
-              var options = {
-                encryptedData: e.detail.encryptedData,
-                iv: e.detail.iv,
-                userInfo: userInfo
-              }
               wx.showToast({
                 title: '请重新登录',
               });
-              var switchTab = function(){
-                wx.switchTab({
-                  url: '/pages/mine/mine',
-                })
-              }
-              setTimeout(switchTab, 1000)
             },
           });
         } else {
           wx.showToast({
             title: '请重新登录',
           });
-          var switchTab = function () {
-            wx.switchTab({
-              url: '/pages/mine/mine',
-            })
-          }
-          setTimeout(switchTab, 1000)
         }
       }
     });
+  },
+  tologin: function () {
+    wx.switchTab({
+      url: '/pages/mine/mine',
+    })
   },
   /**
    * 生命周期函数--监听页面加载

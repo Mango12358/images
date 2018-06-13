@@ -2,7 +2,7 @@
   <image src='{{image.url}}' class='main-image' mode='widthFix' bindtap='previewImage'></image>
   <view class='main-icon-view'>
     <text class="fa fa-thumbs-o-up icon-item" bindtap='diamondTap'/>
-    <text class="fa fa-heart-o icon-item" bindtap='collctorTap' />
+    <text class="fa {{collected}} icon-item" bindtap='collctorTap'/>
     <text class="fa fa-cloud-download icon-item" bindtap='download'/>
     <button class="fa fa-share-square-o icon-item button-item" open-type='share'/>
   </view>
@@ -11,7 +11,7 @@
     <label class='similar-view-label'>相似图片</label>
     <view>
       <block wx:for="{{similar}}">
-        <image class='similar-image' src='{{item.url}}' mode='widthFix'></image>
+        <image class='similar-image' src='{{item.url}}' mode='aspectFill' bindtap='tapImage' id='{{item.id}}'></image>
       </block>
     </view>
   </view>

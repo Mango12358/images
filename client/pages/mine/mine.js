@@ -14,16 +14,24 @@ Page({
   },
   onLoad:function(){
     var that = this;
-    wx.getUserInfo({
-      success: function (userInfo) {
+    wx.checkSession({
+      success: function () {
         // 登录态未过期
-        console.log(userInfo)
-        that.setData({
-          userInfo: JSON.parse(userInfo.rawData),
-          logged: true
+        wx.getUserInfo({
+          success: function (userInfo) {
+            // 登录态未过期
+            console.log(userInfo)
+            that.setData({
+              userInfo: JSON.parse(userInfo.rawData),
+              logged: true
+            })
+          }
         })
-      }
-    })
+      },
+      fail: function () {
+        qcloud.clearSession();
+      },
+    });
   },
   onShareAppMessage: function (res) {
     // if (res.from === 'button') {

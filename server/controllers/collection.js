@@ -10,21 +10,19 @@ async function get(ctx, next) {
   else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
   if (ctx.state.$wxInfo.loginState === 1) {
-    // loginState 为 1，登录态校验成功
-    ctx.state.data = ctx.state.$wxInfo.userinfo
   } else {
     throw new Error("User Login Failed.");
   }
   var openId = ctx.state.$wxInfo.userinfo.openId;
-
+  console.log(openId)
   sql = db.select().from('collections').where('openid', openId).toString()
   await db.raw(sql).then(res => {
     if (res[0].length == 0 ) {
-      ctx.body = "";
-    }else{
+      ctx.body = "{}";
+    } else{
       ctx.body = JSON.parse(res[0][0].content)
     }
-    
+    console.log(ctx.body)
   }, err => {
     throw new Error(err)
   })
@@ -36,8 +34,6 @@ async function remove(ctx, next) {
   else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
   if (ctx.state.$wxInfo.loginState === 1) {
-    // loginState 为 1，登录态校验成功
-    ctx.state.data = ctx.state.$wxInfo.userinfo
   } else {
     throw new Error("User Login Failed.");
   }
@@ -48,8 +44,6 @@ async function remove(ctx, next) {
    * 可查看微信文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/custommsg/receive.html#接收消息和事件
    */
   const sid = ctx.request.body.sourceId
-  var openId = "1";
-
   var sql = db.select().from('collections').where('openid', openId).toString()
   console.log(sql)
   await db.raw(sql).then(async res => {
@@ -70,8 +64,6 @@ async function add(ctx, next) {
   else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
   if (ctx.state.$wxInfo.loginState === 1) {
-    // loginState 为 1，登录态校验成功
-    ctx.state.data = ctx.state.$wxInfo.userinfo
   } else {
     throw new Error("User Login Failed.");
   }
@@ -83,7 +75,6 @@ async function add(ctx, next) {
    */
   const sid = ctx.request.body.sourceId
   const imageUri = ctx.request.body.imgUri
-  var openId = "1";
 
   var sql = db.select().from('collections').where('openid', openId).toString()
   await db.raw(sql).then(async res => {
