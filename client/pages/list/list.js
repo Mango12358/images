@@ -20,23 +20,24 @@ Page({
    */
   onLoad: function (options) {
     var useOptions = {};
+    console.log(options)
     if (Object.getOwnPropertyNames(options).length > 0) {
       useOptions = options;
     } else {
       useOptions = getApp().globalQuery
     }
     var data = { startPage: 0 };
-    if (useOptions.type != undefined) {
-      data.type = useOptions.type
+    if (useOptions.picset != undefined) {
+      data.picset = useOptions.picset
     }
     if (useOptions.startPage != undefined) {
       data.startPage = useOptions.startPage
     }
-    if (useOptions.imgType != undefined) {
-      data.imgType = useOptions.imgType
+    if (useOptions.type != undefined) {
+      data.type = useOptions.type
     }
-    if (useOptions.imgChoice != undefined) {
-      data.imgChoice = useOptions.imgChoice
+    if (useOptions.choice != undefined) {
+      data.choice = useOptions.choice
     }
     if (useOptions.picsetId != undefined) {
       data.picsetId = useOptions.picsetId
@@ -49,7 +50,7 @@ Page({
     this.setData({
       currentPage: data.startPage,
       listInfo: data,
-      showLoadMore: data.type == "picset"
+      showLoadMore: !data.picset
     })
     if (data.title != undefined) {
       wx.setNavigationBarTitle({
@@ -58,7 +59,7 @@ Page({
     }
     this.loadMore();
   },
-  imageTap:function(e){
+  imageTap: function (e) {
     wx.navigateTo({
       url: '/pages/item/item?id=' + e.target.id,
     })
@@ -70,14 +71,14 @@ Page({
     var queryData = {};
     queryData.page = self.data.currentPage;
 
-    if (self.data.listInfo.type == "picset" && self.data.listInfo.picsetId != undefined) {
+    if (self.data.listInfo.picset && self.data.listInfo.picsetId != undefined) {
       queryData.picsetId = self.data.listInfo.picsetId;
     } else {
-      if (self.data.listInfo.imgType != null) {
-        queryData.type = self.data.listInfo.imgType;
+      if (self.data.listInfo.type != null) {
+        queryData.type = self.data.listInfo.type;
       }
-      if (self.data.listInfo.imgChoice != null) {
-        queryData.choice = self.data.listInfo.imgChoice;
+      if (self.data.listInfo.choice != null) {
+        queryData.choice = self.data.listInfo.choice;
       }
     }
 
@@ -94,13 +95,12 @@ Page({
         var newData = [];
         for (var i = 0; i < res.data.length; i++) {
           var uri = res.data[i].cos_uri;
-          uri = res.data[i].source_id + ".jpg"
           newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
         }
         var images = self.data.imgUrls;
         images = images.concat(newData);
 
-        self.setData({ imgUrls: images });
+        self.setData({ imgUrls: images, currentPage: self.data.currentPage + 1 });
         self.setData({ loading: false });
       },
       fail: function (err) {

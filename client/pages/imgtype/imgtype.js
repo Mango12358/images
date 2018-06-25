@@ -42,8 +42,9 @@ Page({
   },
 
   tapItem: function (e) { 
+    console.log(e)
     wx.navigateTo({
-      url: '/pages/list/list?type=' + e.target.id
+      url: '/pages/list/list?type=' + e.currentTarget.id
     })
   },
 
