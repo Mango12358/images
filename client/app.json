@@ -21,19 +21,27 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath":"utils/home.png",
+        "selectedIconPath": "utils/home1.png"
       },
       {
         "pagePath": "pages/picset/picset",
-        "text": "图集"
+        "text": "图集",
+        "iconPath": "utils/set.png",
+        "selectedIconPath": "utils/set1.png"
       },
       {
         "pagePath": "pages/imgtype/imgtype",
-        "text": "分类"
+        "text": "分类",
+        "iconPath": "utils/type.png",
+        "selectedIconPath": "utils/type1.png"
       },
       {
         "pagePath": "pages/mine/mine",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "utils/mine.png",
+        "selectedIconPath": "utils/mine1.png"
       }
     ]
   }

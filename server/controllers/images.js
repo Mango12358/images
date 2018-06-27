@@ -16,52 +16,70 @@ async function query(ctx, next) {
   var _choice = body.choice;
   var _type = body.type;
   var _page = body.page;
+  var _picsetId = body.picsetId;
   if (_page == undefined) {
     _page = 0;
   }
   console.log(_choice)
 
-  var sql;
-  if (_query != undefined) {
-    if (_query.length > 20 || _query == "") {
-      throw new Error("Query too long");
-    }
-    var words = segment.doSegment(_query);
-    console.log(words);
-    var subquery = db.select("target_id").from('tags').orderBy("random_index", "asc").offset(20 * _page).limit(20);
-
-    for (var i = 0; i < words.length; i++) {
-      if (i == 0) {
-        console.log(subquery)
-        subquery = subquery.where("tag", "like", words[i].w + "%")
+  if (_picsetId != undefined) {
+    // case 2: picset
+    sql = db.select("content").from('picset').where("id", _picsetId).toString()
+    await db.raw(sql).then(res => {
+      if (res[0].length == 0) {
+        throw new Error("NOT Found");
       } else {
-        subquery = subquery.orWhere("tag", "like", words[i].w + "%")
+        ctx.body = JSON.parse(res[0][0].content);
       }
-    }
-    subquery = db.select("target_id").from(subquery.as("tmp"))
-    sql = db.select().column("id", "cos_uri", "height", "width", "status", "choice").from('images').orderBy("random_index", "asc").where("id", "in", subquery).toString()
+    }, err => {
+      throw new Error(err)
+    })
   } else {
-    var tmp = db.select().from('images').offset(20 * _page).limit(20).orderBy("random_index", "asc");
-    if (_type != undefined) {
-      tmp.where('type', _type);
-      if (_choice != null) {
-        tmp = tmp.andWhere("choice", _choice);
-      }
-    } else {
-      if (_choice != null) {
-        tmp = tmp.where("choice", _choice);
-      }
-    }
-    sql = tmp.column("id", "cos_uri", "height", "width", "status", "choice").toString()
-  }
 
-  console.log(sql)
-  await db.raw(sql).then(res => {
-    // console.log(res[0])
-    ctx.body = res[0]
-  }, err => {
-    throw new Error(err)
-  })
+    var sql;
+    if (_query != undefined) {
+      // case 1: query
+      if (_query.length > 20 || _query == "") {
+        throw new Error("Query too long");
+      }
+      var words = segment.doSegment(_query);
+      console.log(words);
+      var subquery = db.select("target_id").from('tags').orderBy("random_index", "asc").offset(20 * _page).limit(20);
+
+      for (var i = 0; i < words.length; i++) {
+        if (i == 0) {
+          console.log(subquery)
+          subquery = subquery.where("tag", "like", words[i].w + "%")
+        } else {
+          subquery = subquery.orWhere("tag", "like", words[i].w + "%")
+        }
+      }
+      subquery = db.select("target_id").from(subquery.as("tmp"))
+      sql = db.select().column("id", "cos_uri", "height", "width", "status", "choice").from('images').orderBy("random_index", "asc").where("id", "in", subquery).toString()
+    } else {
+      // case 3: type + choice
+      var tmp = db.select().from('images').offset(20 * _page).limit(20).orderBy("random_index", "asc");
+      if (_type != undefined) {
+        tmp.where('type', _type);
+        if (_choice != null) {
+          tmp = tmp.andWhere("choice", _choice);
+        }
+      } else {
+        if (_choice != null) {
+          tmp = tmp.where("choice", _choice);
+        }
+      }
+      sql = tmp.column("id", "cos_uri", "height", "width", "status", "choice").toString()
+    }
+
+    console.log(sql)
+    await db.raw(sql).then(res => {
+      // console.log(res[0])
+      ctx.body = res[0]
+    }, err => {
+      throw new Error(err)
+    })
+  }
 }
 
 async function get(ctx, next) {
@@ -76,28 +94,28 @@ async function get(ctx, next) {
   const body = ctx.request.body
 
   var _id = body.id;
- 
+
 
   sql = db.column("id", "cos_uri", "height", "width", "status", "choice").select().from("images").where("id", _id).toString()
 
   await db.raw(sql).then(async res => {
-    if(res[0].length == 0 ) {
+    if (res[0].length == 0) {
       throw new Error("NOT Found")
     }
     var result = {}
     result["id"] = res[0][0].id
     result["uri"] = res[0][0].cos_uri
-    sql = db.column("id", "cos_uri").select().from("images").where("id",">", _id).limit(2).toString()
+    sql = db.column("id", "cos_uri").select().from("images").where("id", ">", _id).limit(2).toString()
     await db.raw(sql).then(res => {
       result["similar"] = [];
-      for(var x=0; x < res[0].length; x ++){
+      for (var x = 0; x < res[0].length; x++) {
         var tmp = {};
         tmp["id"] = res[0][x].id
         tmp["uri"] = res[0][x].cos_uri
         result["similar"].push(tmp)
       }
       ctx.body = result;
-    }, err => {})
+    }, err => { })
   }, err => {
     throw new Error(err)
   })

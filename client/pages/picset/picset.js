@@ -1,9 +1,10 @@
 // pages/picset/picset.js
-Page({
 
-  /**
-   * 页面的初始数据
-   */
+var qcloud = require('../../vendor/wafer2-client-sdk/index')
+var config = require('../../config')
+var util = require('../../utils/util.js')
+
+Page({
   data: {
     imgUrls: [],
     page: 0
@@ -28,13 +29,13 @@ Page({
         var newData = [];
         //TODO SET DATA
         for (var i = 0; i < res.data.length; i++) {
-          var uri = res.data[i].cos_uri;
-          newData.push({ id: res.data[i].id, url: config.properties.imageHost + uri + config.properties.imageType })
+          var uri = res.data[i].uri;
+          newData.push({ id: res.data[i].id, name: res.data[i].name, url: config.properties.imageHost + uri + config.properties.imageType })
         }
         tmp = tmp.concat(newData);
         console.log(tmp)
         self.setData({ imgUrls: tmp, page: self.data.page + 1 });
-        if(newData.length == 0){
+        if (newData.length == 0) {
           wx.showToast({
             icon: 'success',
             title: '没有更多了',
@@ -54,14 +55,14 @@ Page({
   },
   imageTap: function (e) {
     wx.navigateTo({
-      url: '/pages/list/list?picset=' + e.target.id,
+      url: '/pages/list/list?picset=true&picsetId=' + e.target.id,
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadMore();
   },
 
   /**
