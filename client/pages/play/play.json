@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "最囧计算器",
+  "backgroundColor": "#00008B",
+  "usingComponents": {
+    "zan-button": "../../zanui/dist/btn/index",
+    "zan-button-group": "../../zanui/dist/btn-group/index",
+    "zan-cell": "../../zanui/dist/cell/index",
+    "zan-icon": "../../zanui/dist/icon/index",
+    "zan-badge": "../../zanui/dist/badge/index",
+    "zan-panel": "../../zanui/dist/panel/index",
+    "zan-cell-group": "../../zanui/dist/cell-group/index",
+    "zan-dialog": "../../zanui/dist/dialog/index",
+    "xm-ad": "/components/xmAD/xmAD"
+  }
+}

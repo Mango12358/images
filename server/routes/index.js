@@ -20,7 +20,6 @@ router.get('/user', validationMiddleware, controllers.user)
 // 图片上传接口，小程序端可以直接将 url 填入 wx.uploadFile 中
 router.post('/upload', controllers.upload)
 
-
 // 查询Image接口
 router.post('/image/query', controllers.images.query)
 router.post('/image/get', controllers.images.get)
@@ -31,7 +30,7 @@ router.post('/collection/add', validationMiddleware, controllers.collection.add)
 router.post('/collection/remove', validationMiddleware, controllers.collection.remove)
 router.post('/collection/get', validationMiddleware, controllers.collection.get)
 
-//图集接口
+// 图集接口
 router.post('/picset/add', controllers.picset.add)
 router.post('/picset/update', controllers.picset.update)
 router.post('/picset/query', controllers.picset.query)

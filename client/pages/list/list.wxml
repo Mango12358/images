@@ -1,6 +1,0 @@
-<view class="container">
-  <block wx:for="{{imgUrls}}">
-    <image src="{{item.url}}" class='image-item' mode='widthFix' lazy-load="true" id='{{item.id}}' bindtap='imageTap'/>
-  </block>
-  <zan-button type="primary" size='small' plain='true' class='load-button' loading="{{loading}}" wx:if="{{showLoadMore}}" bindtap='loadMore'>加载更多.</zan-button>
-</view>

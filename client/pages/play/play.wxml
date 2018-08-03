@@ -1,0 +1,45 @@
+<!--pages/play/play.wxml-->
+<view class='title-view'>
+  <image class='background-img' src='./imgs/title.png' mode='scaleToFill'></image>
+  <text>第{{current.level}}关</text>
+</view>
+<view class='main-view'>
+  <view class='show-view'>
+    <text class='move-text'>步数： {{current.move}}</text>
+    <text class='target-text'>目标： {{current.target}}</text>
+    <text class='value-text'>{{current.value}}</text>
+    <view class='f-icon {{current.fs}}' wx:if="{{current.fs != undefined}}"></view>
+    <view class='f-icon {{current.fe}}' wx:if="{{current.fe != undefined}}"></view>
+  </view>
+  <view class='buttons-view'>
+    <view class='button-row'>
+      <button class='button-icon pink' open-type='share' id='help'>求助</button>
+      <button class='button-icon {{current.commands[current.showIndex[0]].color}} {{current.commands[current.showIndex[0]].small}}' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[0]}}'>{{current.commands[current.showIndex[0]] != undefined ?(current.commands[current.showIndex[0]].show):''}}</button>
+      <button class='button-icon {{current.commands[current.showIndex[1]].color}} {{current.commands[current.showIndex[1]].small}} ' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[1]}}'>{{current.commands[current.showIndex[1]] != undefined ?(current.commands[current.showIndex[1]].show):''}}</button>
+    </view>
+
+    <view class='button-row'>
+      <button class='button-icon green' bindtap='help'>提示</button>
+      <button class='button-icon  {{current.commands[current.showIndex[2]].color}} {{current.commands[current.showIndex[2]].small}}' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[2]}}'>{{current.commands[current.showIndex[2]] != undefined ?(current.commands[current.showIndex[2]].show):''}}</button>
+      <button class='button-icon  {{current.commands[current.showIndex[3]].color}} {{current.commands[current.showIndex[3]].small}}' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[3]}}'>{{current.commands[current.showIndex[3]] != undefined ?(current.commands[current.showIndex[3]].show):''}}</button>
+    </view>
+    <view class='button-row'>
+      <button class='button-icon orange' bindtap='resetLevel'>重置</button>
+      <button class='button-icon {{current.commands[current.showIndex[4]].color}} {{current.commands[current.showIndex[4]].small}}' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[4]}}'>{{current.commands[current.showIndex[4]] != undefined ?(current.commands[current.showIndex[4]].show):''}}</button>
+      <button class='button-icon  {{current.commands[current.showIndex[5]].color}} {{current.commands[current.showIndex[5]].small}}' bindtap='touch' bindtouchstart="touchstart" bindtouchend="touchend" id='{{current.showIndex[5]}}'>{{current.commands[current.showIndex[5]] != undefined ?(current.commands[current.showIndex[5]].show):''}}</button>
+    </view>
+  </view>
+</view>
+
+<zan-dialog id="dialog"></zan-dialog>
+<view class="xm_banner" style="width:100%;margin-top:40rpx;">
+  <xm-ad class="xm_component" data-id="{{xmad.ad.banner}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
+</view>
+
+<view class="xm_fixed">
+  <xm-ad class="xm_component" data-id="{{xmad.ad.fixed}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
+</view>
+
+<view class="xm_insert" wx:if='{{current.level % 5 == 0}}'>
+  <xm-ad class="xm_component" data-id="{{xmad.ad.insert}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
+</view>

@@ -67,12 +67,18 @@ function request(options) {
 
     // 登录后再请求
     function doRequestWithLogin() {
-        loginLib.login({ success: doRequest, fail: callFail });
+        loginLib.loginWithCode({ success: doRequest, fail: callFail });
     }
 
     // 实际进行请求的方法
     function doRequest() {
-        var authHeader = buildAuthHeader(Session.get().skey);
+        var authHeader = {}
+
+        var session = Session.get();
+    
+        if (session) {
+            authHeader = buildAuthHeader(session.skey);
+        }
 
         wx.request(utils.extend({}, options, {
             header: utils.extend({}, originHeader, authHeader),
@@ -81,7 +87,7 @@ function request(options) {
                 var data = response.data;
 
                 var error, message;
-                if (data && data.code === -1) {
+                if ((data && data.code === -1) || response.statusCode === 401) {
                     Session.clear();
                     // 如果是登录态无效，并且还没重试过，会尝试登录后刷新凭据重新请求
                     if (!hasRetried) {
@@ -110,5 +116,4 @@ function request(options) {
 module.exports = {
     RequestError: RequestError,
     request: request,
-    buildAuthHeader: buildAuthHeader,
 };

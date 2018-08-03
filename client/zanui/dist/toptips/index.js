@@ -1,5 +1,7 @@
-const FONT_COLOR = '#fff';
-const BG_COLOR = '#e64340';
+'use strict';
+
+var FONT_COLOR = '#fff';
+var BG_COLOR = '#e64340';
 
 Component({
   properties: {
@@ -23,8 +25,11 @@ Component({
   },
 
   methods: {
-    show() {
-      const { duration } = this.data;
+    show: function show() {
+      var _this = this;
+
+      var duration = this.data.duration;
+
 
       this._timer && clearTimeout(this._timer);
       this.setData({
@@ -32,43 +37,18 @@ Component({
       });
 
       if (duration > 0 && duration !== Infinity) {
-        this._timer = setTimeout(() => {
-          this.hide();
+        this._timer = setTimeout(function () {
+          _this.hide();
         }, duration);
       }
     },
-
-    hide() {
+    hide: function hide() {
       this._timer = clearTimeout(this._timer);
 
       this.setData({
-        isShow: false
+        isShow: false,
+        backgroundColor: BG_COLOR
       });
     }
   }
 });
-
-function Toptips(options = {}) {
-  const pages = getCurrentPages();
-  const ctx = pages[pages.length - 1];
-  const defaultOptions = {
-    selector: '#zan-toptips',
-    duration: 3000
-  };
-
-  options = Object.assign(defaultOptions, parseParam(options));
-
-  const $toptips = ctx.selectComponent(options.selector);
-  delete options.selector;
-
-  $toptips.setData({
-    ...options
-  });
-  $toptips && $toptips.show();
-}
-
-function parseParam(params) {
-  return typeof params === 'object' ? params : { content: params };
-}
-
-module.exports = Toptips;

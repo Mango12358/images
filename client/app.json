@@ -1,48 +1,15 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/list/list",
-    "pages/mine/mine",
-    "pages/collector/collector",
-    "pages/imgtype/imgtype",
-    "pages/picset/picset",
-    "pages/search/search",
-    "pages/item/item"
+    "pages/play/play",
+    "pages/xmadH5/xmadH5"
   ],
   "window": {
-    "backgroundColor": "#EEE",
+    "backgroundColor": "#68228B",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FFFF00",
-    "navigationBarTitleText": "图片搜索",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "selectedColor":"#00CCFF",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath":"utils/home.png",
-        "selectedIconPath": "utils/home1.png"
-      },
-      {
-        "pagePath": "pages/picset/picset",
-        "text": "图集",
-        "iconPath": "utils/set.png",
-        "selectedIconPath": "utils/set1.png"
-      },
-      {
-        "pagePath": "pages/imgtype/imgtype",
-        "text": "分类",
-        "iconPath": "utils/type.png",
-        "selectedIconPath": "utils/type1.png"
-      },
-      {
-        "pagePath": "pages/mine/mine",
-        "text": "我的",
-        "iconPath": "utils/mine.png",
-        "selectedIconPath": "utils/mine1.png"
-      }
-    ]
+    "navigationBarBackgroundColor": "#00008B",
+    "navigationBarTitleText": "最囧计算器",
+    "navigationBarTextStyle": "white"
   }
+  
 }

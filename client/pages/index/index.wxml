@@ -1,50 +1,79 @@
 <!--index.wxml-->
 <view class="container">
-  <swiper indicator-dots="true" duration='300' class='swiper-container'>
-    <block wx:for="{{swiperUrls}}">
-      <swiper-item>
-        <image src="{{item}}" class='image-swiper-item' />
-      </swiper-item>
-    </block>
-  </swiper>
-  <view class='search-view'>
-    <input class='search-input' placeholder="搜索你想要的图片" placeholder-class='input-place' bindtap='tapSearch' disabled='true'>
-    </input>
-    <icon type="search" size="18" class='search-icon' />
-    <button class='search-button' open-type='share'>分享</button>
-    <!-- open-type="getUserInfo"  bindgetuserinfo="bindGetUserInfo" -->
-  </view>
-
-  <view class='menu-container'>
-    <block wx:for="{{menuList}}">
-      <!-- <view  bindtap='menuTap'> -->
-      <navigator wx:if="{{item.target == undefinded}}" url="{{item.url}}" id=" {{index}}" class='menu-view' hover-class="none">
-        <image src='{{item.image}}' class='menu-image'></image>
-        <label class='menu-label'>{{item.label}}</label>
-      </navigator>
-
-      <navigator wx:if="{{item.target != undefinded}}" target="miniProgram" app-id="{{item.appId}}" path="{{item.url}}" id=" {{index}}" class='menu-view' version="develop" hover-class="none">
-        <image src='{{item.image}}' class='menu-image'></image>
-        <label class='menu-label'>{{item.label}}</label>
-      </navigator>
-      <!-- </view> -->
-    </block>
-  </view>
-
-
-  <view class='tab-container'>
-    <view class="tab-view">
-      <zan-tab scroll="true" list="{{ tabList }}" height="40" selected-id="1" bindtabchange="handleTabChange" />
+  <button class='login-button' wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" catchtap="catchtap"> </button>
+  <view class="userinfo" bindtap="login">
+    <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : './imgs/user-unlogin.png'}}" background-size="cover"></image>
+    <view>
+      <button class="userinfo-nickname" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">{{logged ? userInfo.nickName : '点击登录'}}</button>
+      <text class="userinfo-nickname" wx:if="{{logged}}">{{userInfo.lastLoginTime}}</text>
     </view>
-
-    <block wx:for="{{showImageData.images}}">
-      <view class='image-list-view'>
-        <image src="{{item.url}}" id='{{item.id}}' class='image-item' mode='widthFix' lazy-load="true" bindtap='tapImage'/>
-      </view>
-    </block>
-    <zan-button type="primary" size='small' plain='true' bindtap='loadMore' loading="{{loading}}" class='load-button'>加载更多</zan-button>
-
-
   </view>
 
+  <view class='menu-item' bindtap='tapPlaySingle'>
+    <image src='./imgs/1.png' class='menu-background-view' mode='scaleToFill'></image>
+    <view class='menu-title-view'>
+      <text class='menu-title-h2'>开始闯关</text>
+      <text class='menu-title-h3'>第{{level}}关，通关赢50元话费</text>
+    </view>
+    <view class='menu-image-view'>
+      <image src='./imgs/cup.png' class='menu-image' mode='aspectFill'></image>
+    </view>
+  </view>
+  <!-- <view class='menu-item' bindtap='tap'>
+    <image src='./imgs/2.png' class='menu-background-view' mode='scaleToFill'></image>
+    <view class='menu-title-view'>
+      <text class='menu-title-h2'>排位赛</text>
+      <text class='menu-title-h3'>前十二名得1元话费</text>
+    </view>
+    <view class='menu-image-view'>
+      <image src='./imgs/level_locked.png' class='menu-image'></image>
+    </view>
+  </view> -->
+
+  <view class='menu-small-container'>
+    <view class='menu-small-item' style='margin-left:0rpx;'>
+      <image src='./imgs/3.png' class='menu-small-background-view' mode='scaleToFill'></image>
+      <view class='menu-small-title-view'>
+        <text class='menu-small-title-h2'>邀请好友</text>
+        <text class='menu-small-title-h3'>邀请10位好友得1元话费</text>
+      </view>
+      <button class='menu-button' open-type='share'></button>
+    </view>
+    <view class='menu-small-item'>
+      <navigator target="miniProgram" open-type="navigate" app-id="{{miniApp.appId}}" path="{{miniApp.path}}" extra-data="{{miniApp.extra}}" version="release">
+        <image src='./imgs/5.png' class='menu-small-background-view' mode='scaleToFill'></image>
+        <view class='menu-small-title-view'>
+          <text class='menu-small-title-h2'>更多赢话费玩法</text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class="xm_banner" style="width:95%;margin-top:10rpx;margin-bottom:10rpx;">
+    <xm-ad class="xm_component" data-id="{{xmad.ad.banner}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
+  </view>
+
+  <view class="xm_fixed">
+    <xm-ad class="xm_component" data-id="{{xmad.ad.fixed}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
+  </view>
+
+  <view class='show-gifts-view'>
+    <image src='./imgs/gifts.png' class='show-gifts' mode='aspectFill'></image>
+    <zan-cell-group class="cell-group">
+      <!-- <zan-cell title="1元话费" label="排位赛前12名可领取">
+        <image src='./imgs/1yuan.png' slot="icon" class='image-icon' mode='aspectFill'></image>
+        <zan-button slot="footer" size="small" plain="false" type='primary'>领取奖励</zan-button>
+      </zan-cell> -->
+      <zan-cell title="1元话费" label="邀请超过10位好友可领取">
+        <image src='./imgs/1yuan.png' slot="icon" class='image-icon' mode='aspectFill'></image>
+        <zan-button slot="footer" size="small" plain="false" type='primary' bindtap='reward1'>领取奖励</zan-button>
+      </zan-cell>
+      <zan-cell title="50元话费" label="通关可领取">
+        <image src='./imgs/50yuan.png' slot="icon" class='image-icon' mode='aspectFill'></image>
+        <zan-button slot="footer" size="small" plain="false" type='primary' bindtap='reward50'>领取奖励</zan-button>
+      </zan-cell>
+    </zan-cell-group>
+  </view>
 </view>
+
+<zan-dialog id="dialog"></zan-dialog>

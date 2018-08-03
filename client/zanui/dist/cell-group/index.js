@@ -1,44 +1,61 @@
+'use strict';
+
+var _relations;
+
+var CELL_PATH = '../cell/index';
+var FIELD_PATH = '../field/index';
+
 Component({
-  relations: {
-    '../cell/index': {
-      type: 'child',
-      linked() {
-        this._updateIsLastCell();
-      },
-      linkChanged() {
-        this._updateIsLastCell();
-      },
-      unlinked() {
-        this._updateIsLastCell();
-      }
+  relations: (_relations = {}, _relations[CELL_PATH] = {
+    type: 'child',
+    linked: function linked() {
+      this._updateIsLastElement(CELL_PATH);
+    },
+    linkChanged: function linkChanged() {
+      this._updateIsLastElement(CELL_PATH);
+    },
+    unlinked: function unlinked() {
+      this._updateIsLastElement(CELL_PATH);
     }
-  },
+  }, _relations[FIELD_PATH] = {
+    type: 'child',
+    linked: function linked() {
+      this._updateIsLastElement(FIELD_PATH);
+    },
+    linkChanged: function linkChanged() {
+      this._updateIsLastElement(FIELD_PATH);
+    },
+    unlinked: function unlinked() {
+      this._updateIsLastElement(FIELD_PATH);
+    }
+  }, _relations),
 
   data: {
-    cellUpdateTimeout: 0
+    elementUpdateTimeout: 0
   },
 
   methods: {
-    _updateIsLastCell() {
+    _updateIsLastElement: function _updateIsLastElement(childPath) {
+      var _this = this;
+
       // 用 setTimeout 减少计算次数
-      if (this.data.cellUpdateTimeout > 0) {
+      if (this.data.elementUpdateTimeout > 0) {
         return;
       }
 
-      const cellUpdateTimeout = setTimeout(() => {
-        this.setData({ cellUpdateTimeout: 0 });
-        let cells = this.getRelationNodes('../cell/index');
+      var elementUpdateTimeout = setTimeout(function () {
+        _this.setData({ elementUpdateTimeout: 0 });
+        var elements = _this.getRelationNodes(childPath);
+        if (elements.length > 0) {
+          var lastIndex = elements.length - 1;
 
-        if (cells.length > 0) {
-          let lastIndex = cells.length - 1;
-
-          cells.forEach((cell, index) => {
-            cell.updateIsLastCell(index === lastIndex);
+          elements.forEach(function (cell, index) {
+            cell.updateIsLastElement(index === lastIndex);
           });
         }
       });
 
-      this.setData({ cellUpdateTimeout });
+      this.setData({ elementUpdateTimeout: elementUpdateTimeout });
     }
   }
 });

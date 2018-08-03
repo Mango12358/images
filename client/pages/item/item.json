@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "图片详情",
-  "backgroundColor": "#EEE",
-  "usingComponents": {
-    "zan-button": "../../zanui/dist/btn/index",
-    "zan-button-group": "../../zanui/dist/btn-group/index"
-  }
-}

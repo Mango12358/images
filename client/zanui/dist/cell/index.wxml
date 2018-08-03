@@ -1,6 +1,7 @@
 <view 
-  bindtap="cellTap"
-  class="zan-cell {{ isLastCell ? 'last-cell' : '' }} {{ isLink ? 'zan-cell--access' : '' }}">
+  catchtap="cellTap"
+  class="cell-class zan-cell {{ isLastCell ? 'last-cell' : '' }} {{ isLink ? 'zan-cell--access' : '' }}"
+>
 
   <view class="zan-cell__icon">
     <slot name="icon"></slot>
@@ -12,7 +13,7 @@
     <slot></slot>
   </view>
 
-  <view catchtap="navigateTo" class="zan-cell__ft">
+  <view bindtap="footerTap" class="zan-cell__ft">
     <block wx:if="{{value}}">{{ value }}</block>
     <block wx:else>
       <slot name="footer"></slot>

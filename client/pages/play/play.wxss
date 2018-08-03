@@ -1,0 +1,174 @@
+/* pages/play/play.wxss */
+@import "../../utils/font.wxss";
+
+page {
+  background: linear-gradient(darkBlue, purple);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.title-view {
+  position: relative;
+  margin: auto;
+  margin-top: 30rpx;
+  width: 300rpx;
+  height: 80rpx;
+  text-align: center;
+  color: white;
+  font-size: 35rpx;
+}
+
+.background-img {
+  width: 100%;
+  height: 100%;
+  left: 0rpx;
+  top: -10rpx;
+  position: absolute;
+  z-index: -1;
+}
+
+.start-button {
+  margin: auto;
+  margin-top: 50rpx;
+}
+
+.main-view {
+  width: 90%;
+  margin: auto;
+  margin-top: 30rpx;
+  height: 800rpx;
+  background: lightgray;
+  position: relative;
+  border-radius: 10rpx;
+}
+
+.show-view {
+  margin: 3%;
+  width: 94%;
+  height: 200rpx;
+  background: white;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+.move-text {
+  position: absolute;
+  top: 15rpx;
+  left: 25rpx;
+  color: gray;
+  font-size: 40rpx;
+  font-family: 'DigifaceWide';
+}
+
+.target-text {
+  position: absolute;
+  top: 15rpx;
+  right: 25rpx;
+  color: gray;
+  font-size: 40rpx;
+  font-family: 'DigifaceWide';
+}
+
+.value-text {
+  position: absolute;
+  bottom: 25rpx;
+  right: 25rpx;
+  color: gray;
+  font-size: 70rpx;
+  font-family: 'DigifaceWide';
+}
+
+.f-icon {
+  position: absolute;
+  bottom: 20rpx;
+  background: purple;
+  width: 40rpx;
+  height: 10rpx;
+}
+
+.f0 {
+  right: 30rpx;
+}
+
+.f1 {
+  right: 85rpx;
+}
+
+.f2 {
+  right: 140rpx;
+}
+
+.f3 {
+  right: 195rpx;
+}
+.f4 {
+  right: 240rpx;
+}
+
+.buttons-view {
+  margin: 3%;
+  width: 94%;
+  margin-top: 50rpx;
+  padding-top: 10rpx;
+  height: 500rpx;
+  background: gray;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+.button-row {
+  height: 150rpx;
+  width: 94%;
+  margin: auto;
+  margin-top: 10rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.button-icon {
+  width: 190rpx;
+  height: 140rpx;
+  background: lightgray;
+  border-radius: 10rpx;
+  position: relative;
+  font-size: 42rpx;
+  line-height: 140rpx;
+  font-family: 'DigifaceWide';
+  vertical-align: middle;
+}
+.icon-small{
+   font-size: 35rpx;
+}
+
+.blue {
+  background: skyblue;
+}
+
+.purple {
+  background: purple;
+}
+
+.pink {
+  background: pink;
+}
+
+.orange {
+  background: #ff8c00;
+}
+
+.orangeRed {
+  background: #ff4500;
+}
+
+.green {
+  background: lightgreen;
+}
+
+.xm_fixed{
+  position: fixed;
+  right: 50rpx;
+  bottom: 170rpx;
+  z-index: 100;
+}

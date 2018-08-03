@@ -1,6 +1,15 @@
+'use strict';
+
+// Note that the bitwise operators and shift operators operate on 32-bit ints
+// so in that case, the max safe integer is 2^31-1, or 2147483647
+var VERY_LARGE_NUMBER = 2147483647;
+
 Component({
   properties: {
-    size: String,
+    size: {
+      type: String,
+      value: 'middle'
+    },
     stepper: {
       type: Number,
       value: 1
@@ -11,7 +20,7 @@ Component({
     },
     max: {
       type: Number,
-      value: Infinity
+      value: VERY_LARGE_NUMBER
     },
     step: {
       type: Number,
@@ -20,11 +29,13 @@ Component({
   },
 
   methods: {
-    handleZanStepperChange(e, type) {
-      const { dataset = {} } = e.currentTarget;
-      const { disabled } = dataset;
-      const { step } = this.data;
-      let { stepper } = this.data;
+    handleZanStepperChange: function handleZanStepperChange(e, type) {
+      var _e$currentTarget$data = e.currentTarget.dataset,
+          dataset = _e$currentTarget$data === undefined ? {} : _e$currentTarget$data;
+      var disabled = dataset.disabled;
+      var step = this.data.step;
+      var stepper = this.data.stepper;
+
 
       if (disabled) return null;
 
@@ -34,25 +45,29 @@ Component({
         stepper += step;
       }
 
+      if (stepper < this.data.min || stepper > this.data.max) return null;
+
       this.triggerEvent('change', stepper);
       this.triggerEvent(type);
     },
-
-    handleZanStepperMinus(e) {
+    handleZanStepperMinus: function handleZanStepperMinus(e) {
       this.handleZanStepperChange(e, 'minus');
     },
-
-    handleZanStepperPlus(e) {
+    handleZanStepperPlus: function handleZanStepperPlus(e) {
       this.handleZanStepperChange(e, 'plus');
     },
+    handleZanStepperBlur: function handleZanStepperBlur(e) {
+      var _this = this;
 
-    handleZanStepperBlur(e) {
-      let { value } = e.detail;
-      const { min, max } = this.data;
+      var value = e.detail.value;
+      var _data = this.data,
+          min = _data.min,
+          max = _data.max;
+
 
       if (!value) {
-        setTimeout(() => {
-          this.triggerEvent('change', min);
+        setTimeout(function () {
+          _this.triggerEvent('change', min);
         }, 16);
         return;
       }
