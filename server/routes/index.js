@@ -36,4 +36,6 @@ router.post('/picset/update', controllers.picset.update)
 router.post('/picset/query', controllers.picset.query)
 router.post('/picset/delete', controllers.picset.del)
 
+router.get('/dztest', controllers.dztest.get)
+
 module.exports = router

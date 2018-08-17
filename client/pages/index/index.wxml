@@ -13,7 +13,7 @@
     <image src='./imgs/1.png' class='menu-background-view' mode='scaleToFill'></image>
     <view class='menu-title-view'>
       <text class='menu-title-h2'>开始闯关</text>
-      <text class='menu-title-h3'>第{{level}}关，通关赢50元话费</text>
+      <text class='menu-title-h3'>第{{level}}关 (共200关)，通关赢50元话费</text>
     </view>
     <view class='menu-image-view'>
       <image src='./imgs/cup.png' class='menu-image' mode='aspectFill'></image>
@@ -75,5 +75,5 @@
     </zan-cell-group>
   </view>
 </view>
-
+<ad unit-id="adunit-f03717b921db5f9c"></ad>
 <zan-dialog id="dialog"></zan-dialog>

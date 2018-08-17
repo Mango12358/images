@@ -29,10 +29,11 @@ Page({
     }
   },
   loadAppId:function(){
+    var that = this;
     wx.request({
-      url: 'http://oss.nhjoke.xyz/to/appid.json',
+      url: 'https://oss.nhjoke.xyz/to/appid.json',
       success:function(res){
-        this.setData("miniApp",res)
+        that.setData({"miniApp":res.data})
       }
     })
   },
@@ -125,6 +126,16 @@ Page({
       wx.setStorageSync(KeyLevel, lastLevel);
     }
     this.setData({ level: lastLevel })
+    this.loadAppId();
   }
 
 })
+
+
+function A(){
+  this.a = "a"
+}
+A.prototype.getA = function(){
+  return this.a;
+}
+console.log(new A().getA())

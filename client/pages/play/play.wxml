@@ -32,6 +32,7 @@
 </view>
 
 <zan-dialog id="dialog"></zan-dialog>
+<ad unit-id="adunit-8d9c86dff8b98ee9"></ad>
 <view class="xm_banner" style="width:100%;margin-top:40rpx;">
   <xm-ad class="xm_component" data-id="{{xmad.ad.banner}}" bindclick='appoIntView' bindclose='xmadClose' adData="{{xmad.adData}}"></xm-ad>
 </view>
